@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasScopes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
+    use HasScopes;
+
     /**
      * The attributes that are mass assignable.
      *
