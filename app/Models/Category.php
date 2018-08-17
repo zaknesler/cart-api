@@ -20,8 +20,8 @@ class Category extends Model
     /**
      * Get the categories in proper order.
      *
-     * @param  Illuminate\Database\Eloquent\Builder $builder
-     * @return Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrdered(Builder $builder, $direction = 'asc')
     {
@@ -31,8 +31,8 @@ class Category extends Model
     /**
      * Get the categories that are not children of other categories.
      *
-     * @param  Illuminate\Database\Eloquent\Builder $builder
-     * @return Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeParents(Builder $builder)
     {
@@ -42,10 +42,20 @@ class Category extends Model
     /**
      * Get the child categories.
      *
-     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
+    /**
+     * A category belongs to many products.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->using(CategoryProduct::class);
     }
 }

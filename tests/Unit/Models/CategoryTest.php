@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,5 +44,17 @@ class CategoryTest extends TestCase
         $categoryB = factory(Category::class)->create([ 'order' => 1 ]);
 
         $this->assertEquals($categoryB->id, Category::ordered()->first()->id);
+    }
+
+    /** @test */
+    function a_category_can_have_many_products()
+    {
+        $category = factory(Category::class)->create();
+
+        $category->products()->save(
+            factory(Product::class)->create()
+        );
+
+        $this->assertEquals(1, $category->products()->count());
     }
 }
