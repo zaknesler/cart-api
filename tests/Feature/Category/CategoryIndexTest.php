@@ -7,9 +7,17 @@ use App\Models\Category;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CategoryListingTest extends TestCase
+class CategoryIndexTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    function the_categories_index_endpoint_returns_a_successful_status_code()
+    {
+        $response = $this->get('/api/categories');
+
+        $response->assertSuccessful();
+    }
 
     /** @test */
     function categories_can_be_listed()
@@ -18,7 +26,6 @@ class CategoryListingTest extends TestCase
 
         $response = $this->get('/api/categories');
 
-        $response->assertSuccessful();
         $categories->each(function ($category) use ($response) {
             $response->assertJsonFragment([
                 'name' => $category->name,
@@ -35,7 +42,6 @@ class CategoryListingTest extends TestCase
 
         $response = $this->get('/api/categories');
 
-        $response->assertSuccessful();
         $response->assertJsonCount(1, 'data');
     }
 
@@ -47,7 +53,6 @@ class CategoryListingTest extends TestCase
 
         $response = $this->get('/api/categories');
 
-        $response->assertSuccessful();
         $response->assertJsonFragment([
             'name' => $categoryA->name,
             'slug' => $categoryA->slug,
@@ -68,7 +73,6 @@ class CategoryListingTest extends TestCase
 
         $response = $this->get('/api/categories');
 
-        $response->assertSuccessful();
         $response->assertSeeInOrder([
             $categoryB->name,
             $categoryA->name,
