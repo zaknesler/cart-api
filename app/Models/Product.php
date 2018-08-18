@@ -41,4 +41,14 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class)->using(CategoryProduct::class);
     }
+
+    /**
+     * A product has many variations.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function variations()
+    {
+        return $this->hasMany(ProductVariation::class)->orderBy('order', 'asc');
+    }
 }
