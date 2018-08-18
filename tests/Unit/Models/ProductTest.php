@@ -30,5 +30,6 @@ class ProductTest extends TestCase
         );
 
         $this->assertEquals(1, $product->categories()->count());
+        $this->assertInstanceOf(Category::class, $product->categories()->first());
     }
 }
