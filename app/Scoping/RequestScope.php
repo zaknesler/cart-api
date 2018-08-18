@@ -6,7 +6,7 @@ use App\Scoping\Scope;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class ScopeManager
+class RequestScope
 {
     /**
      * The current request.
