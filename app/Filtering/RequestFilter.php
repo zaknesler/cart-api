@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Scoping;
+namespace App\Filtering;
 
-use App\Scoping\Scope;
+use App\Filtering\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class RequestScope
+class RequestFilter
 {
     /**
      * The current request.
@@ -26,33 +26,33 @@ class RequestScope
     }
 
     /**
-     * Apply the specified scopes to the query.
+     * Apply the specified filters to the query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  array  $scopes
+     * @param  array  $filters
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function apply(Builder $builder, array $scopes)
+    public function apply(Builder $builder, array $filters)
     {
-        foreach ($this->validScopes($scopes) as $key => $scope) {
-            if (!$scope instanceof Scope) {
+        foreach ($this->validFilters($filters) as $key => $filter) {
+            if (!$filter instanceof Filter) {
                 continue;
             }
 
-            $scope->apply($builder, $this->request->get($key));
+            $filter->apply($builder, $this->request->get($key));
         }
 
         return $builder;
     }
 
     /**
-     * Get only the scopes that are present in the request.
+     * Get only the filters that are present in the request.
      *
-     * @param  array  $scopes
+     * @param  array  $filters
      * @return array
      */
-    protected function validScopes(array $scopes)
+    protected function validFilters(array $filters)
     {
-        return array_only($scopes, array_keys($this->request->all()));
+        return array_only($filters, array_keys($this->request->all()));
     }
 }

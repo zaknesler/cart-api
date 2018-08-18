@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Scoping;
+namespace App\Filtering;
 
 use Illuminate\Database\Eloquent\Builder;
 
-interface Scope
+interface Filter
 {
     /**
-     * Apply the scope to the query.
+     * Apply the filter to the query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  string  $value

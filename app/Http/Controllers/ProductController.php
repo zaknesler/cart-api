@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Scoping\Scopes\CategoryScope;
+use App\Filtering\Filters\CategoryFilter;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductIndexResource;
 
@@ -18,8 +18,8 @@ class ProductController extends Controller
     public function index()
     {
         return ProductIndexResource::collection(
-            Product::withScopes([
-                'category' => new CategoryScope(),
+            Product::withFilters([
+                'category' => new CategoryFilter(),
             ])->paginate(10)
         );
     }

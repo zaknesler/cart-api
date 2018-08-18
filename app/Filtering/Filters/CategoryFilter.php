@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Scoping\Scopes;
+namespace App\Filtering\Filters;
 
-use App\Scoping\Scope;
+use App\Filtering\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
-class CategoryScope implements Scope
+class CategoryFilter implements Filter
 {
     /**
-     * Apply the scope to the query.
+     * Apply the filter to the query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  string  $value

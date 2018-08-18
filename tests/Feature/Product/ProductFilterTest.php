@@ -8,12 +8,12 @@ use App\Models\Category;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProductScopeTest extends TestCase
+class ProductFilterTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    function a_product_can_be_scoped_by_a_category()
+    function a_product_can_be_filtered_by_a_category()
     {
         factory(Product::class, 2)->create();
         factory(Category::class, 2)->create();
