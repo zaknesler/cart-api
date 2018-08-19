@@ -23,7 +23,7 @@ class CategoryTest extends TestCase
 
         $this->assertEquals($categoryB->id, $categoryA->children()->first()->id);
         $this->assertEquals($categoryA->id, $categoryB->parent_id);
-        $this->assertInstanceOf(Category::class, $categoryA->children()->first());
+        $this->assertTrue($categoryA->children()->first()->is($categoryB));
     }
 
     /** @test */
@@ -53,10 +53,11 @@ class CategoryTest extends TestCase
         $category = factory(Category::class)->create();
 
         $category->products()->save(
-            factory(Product::class)->create()
+            $product = factory(Product::class)->create()
         );
 
         $this->assertEquals(1, $category->products()->count());
         $this->assertInstanceOf(Product::class, $category->products()->first());
+        $this->assertTrue($category->products()->first()->is($product));
     }
 }

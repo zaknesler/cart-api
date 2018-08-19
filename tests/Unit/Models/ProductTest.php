@@ -27,11 +27,11 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
 
         $product->categories()->save(
-            factory(Category::class)->create()
+            $category = factory(Category::class)->create()
         );
 
         $this->assertEquals(1, $product->categories()->count());
-        $this->assertInstanceOf(Category::class, $product->categories()->first());
+        $this->assertTrue($product->categories()->first()->is($category));
     }
 
     /** @test */
@@ -40,10 +40,10 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
 
         $product->variations()->save(
-            factory(ProductVariation::class)->create()
+            $variation = factory(ProductVariation::class)->create()
         );
 
         $this->assertEquals(1, $product->variations()->count());
-        $this->assertInstanceOf(ProductVariation::class, $product->variations()->first());
+        $this->assertTrue($product->variations()->first()->is($variation));
     }
 }
