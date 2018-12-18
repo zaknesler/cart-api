@@ -26,4 +26,14 @@ class ProductVariation extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    /**
+     * A product variation has a type.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function type()
+    {
+        return $this->hasOne(ProductVariationType::class, 'id', 'product_variation_type_id');
+    }
 }

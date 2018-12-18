@@ -21,7 +21,9 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'price' => $this->price / 100,
-            'variations' => ProductVariationResource::collection($this->whenLoaded('variations')),
+            'variations' => ProductVariationResource::collection(
+                $this->whenLoaded('variations')
+            ),
         ];
     }
 }

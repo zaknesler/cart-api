@@ -9,5 +9,8 @@ $factory->define(App\Models\ProductVariation::class, function (Faker $faker) {
         },
         'name' => $faker->sentence(3),
         'price' => $faker->numberBetween(1000, 10000),
+        'product_variation_type_id' => function () {
+            return factory(App\Models\ProductVariationType::class)->create()->id;
+        },
     ];
 });
