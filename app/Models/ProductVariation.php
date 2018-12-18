@@ -65,4 +65,14 @@ class ProductVariation extends Model
     {
         return $this->hasOne(ProductVariationType::class, 'id', 'product_variation_type_id');
     }
+
+    /**
+     * A product variation has many stock blocks.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
 }
