@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'price' => $this->price / 100,
+            'price' => $this->formattedPrice,
             'variations' => ProductVariationResource::collection(
                 $this->whenLoaded('variations')
             ),

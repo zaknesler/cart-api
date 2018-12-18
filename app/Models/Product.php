@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Filtering\Filterable;
+use App\Models\Traits\HasPrices;
+use App\Models\Traits\HasFilters;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
-    use Filterable;
+    use HasFilters, HasPrices;
 
     /**
      * The attributes that are mass assignable.

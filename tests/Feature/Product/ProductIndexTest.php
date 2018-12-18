@@ -22,7 +22,7 @@ class ProductIndexTest extends TestCase
     /** @test */
     function products_can_be_listed()
     {
-        $products = factory(Product::class, 3)->create();
+        $products = factory(Product::class, 3)->create(['price' => 500]);
 
         $response = $this->get('/api/products');
 
@@ -31,7 +31,7 @@ class ProductIndexTest extends TestCase
                 'name' => $product->name,
                 'slug' => $product->slug,
                 'description' => $product->description,
-                'price' => $product->price / 100,
+                'price' => '$5.00',
             ]);
         });
     }

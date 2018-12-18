@@ -32,12 +32,20 @@ class ProductShowTest extends TestCase
     /** @test */
     function a_product_can_be_viewed()
     {
-        factory(Product::class)->create([ 'slug' => 'example' ]);
+        factory(Product::class)->create([
+            'name' => 'Example Product',
+            'slug' => 'example-product',
+            'description' => 'Just an example product',
+            'price' => 650,
+        ]);
 
-        $response = $this->get('/api/products/example');
+        $response = $this->get('/api/products/example-product');
 
         $response->assertJsonFragment([
-            'slug' => 'example',
+            'name' => 'Example Product',
+            'slug' => 'example-product',
+            'description' => 'Just an example product',
+            'price' => '$6.50',
         ]);
     }
 }

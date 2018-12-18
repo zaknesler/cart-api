@@ -19,7 +19,7 @@ class ProductIndexResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'price' => $this->price / 100,
+            'price' => $this->formattedPrice,
         ];
     }
 }

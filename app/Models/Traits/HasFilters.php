@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Filtering;
+namespace App\Models\Traits;
 
+use App\Filtering\RequestFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-trait Filterable
+trait HasFilters
 {
     /**
      * A model can apply filters to its queries.
