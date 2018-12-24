@@ -17,11 +17,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ProductIndexResource::collection(
-            Product::withFilters([
+        $products = Product::with('variations.stock')
+            ->withFilters([
                 'category' => new CategoryFilter(),
-            ])->paginate(10)
-        );
+            ])
+            ->paginate(10);
+
+        return ProductIndexResource::collection($products);
     }
 
     /**
@@ -43,7 +45,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return new ProductResource($product->load('variations'));
+        return new ProductResource($product->load([
+            'variations.type',
+            'variations.stock',
+            'variations.product',
+        ]));
     }
 
     /**
