@@ -3,9 +3,8 @@
 namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Product\ProductVariationResource;
 
-class ProductResource extends JsonResource
+class ProductResource extends ProductIndexResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +18,6 @@ class ProductResource extends JsonResource
             'variations' => ProductVariationResource::collection(
                 $this->whenLoaded('variations')->groupBy('type.name')
             ),
-            'price' => $this->formattedPrice,
         ]);
     }
 }

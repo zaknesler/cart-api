@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
             'name' => 'Coffee',
             'slug' => 'coffee',
             'description' => 'Some delicious coffee for you.',
-            'price' => 1500,
+            'price' => 1000,
         ]);
 
         $typeWhole = factory(ProductVariationType::class)->create([
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
             'product_id' => $product->id,
             'product_variation_type_id' => $typeWhole->id,
             'name' => '250g',
-            'price' => 1000,
+            'price' => null,
         ]);
 
         factory(ProductVariation::class)->create([
@@ -57,7 +57,7 @@ class ProductSeeder extends Seeder
             'product_id' => $product->id,
             'product_variation_type_id' => $typeGround->id,
             'name' => '250g',
-            'price' => 1000,
+            'price' => null,
         ]);
 
         factory(ProductVariation::class)->create([
