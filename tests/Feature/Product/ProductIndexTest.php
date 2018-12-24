@@ -14,7 +14,7 @@ class ProductIndexTest extends TestCase
     /** @test */
     function the_products_index_endpoint_returns_a_successful_status_code()
     {
-        $response = $this->get('/api/products');
+        $response = $this->json('GET', '/api/products');
 
         $response->assertSuccessful();
     }
@@ -24,7 +24,7 @@ class ProductIndexTest extends TestCase
     {
         $products = factory(Product::class, 3)->create(['price' => 500]);
 
-        $response = $this->get('/api/products');
+        $response = $this->json('GET', '/api/products');
 
         $products->each(function ($product) use ($response) {
             $response->assertJsonFragment([
@@ -39,7 +39,7 @@ class ProductIndexTest extends TestCase
     /** @test */
     function products_are_paginated()
     {
-        $response = $this->get('/api/products');
+        $response = $this->json('GET', '/api/products');
 
         $response->assertJsonStructure([
             'data',

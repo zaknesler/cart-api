@@ -14,7 +14,7 @@ class CategoryIndexTest extends TestCase
     /** @test */
     function the_categories_index_endpoint_returns_a_successful_status_code()
     {
-        $response = $this->get('/api/categories');
+        $response = $this->json('GET', '/api/categories');
 
         $response->assertSuccessful();
     }
@@ -24,7 +24,7 @@ class CategoryIndexTest extends TestCase
     {
         $categories = factory(Category::class, 3)->create();
 
-        $response = $this->get('/api/categories');
+        $response = $this->json('GET', '/api/categories');
 
         $categories->each(function ($category) use ($response) {
             $response->assertJsonFragment([
@@ -40,7 +40,7 @@ class CategoryIndexTest extends TestCase
         $categoryA = factory(Category::class)->create();
         $categoryB = factory(Category::class)->create([ 'parent_id' => 1 ]);
 
-        $response = $this->get('/api/categories');
+        $response = $this->json('GET', '/api/categories');
 
         $response->assertJsonCount(1, 'data');
     }
@@ -51,7 +51,7 @@ class CategoryIndexTest extends TestCase
         $categoryA = factory(Category::class)->create();
         $categoryB = factory(Category::class)->create([ 'parent_id' => 1 ]);
 
-        $response = $this->get('/api/categories');
+        $response = $this->json('GET', '/api/categories');
 
         $response->assertJsonFragment([
             'name' => $categoryA->name,
@@ -71,7 +71,7 @@ class CategoryIndexTest extends TestCase
         $categoryA = factory(Category::class)->create([ 'order' => 2 ]);
         $categoryB = factory(Category::class)->create([ 'order' => 1 ]);
 
-        $response = $this->get('/api/categories');
+        $response = $this->json('GET', '/api/categories');
 
         $response->assertSeeInOrder([
             $categoryB->name,

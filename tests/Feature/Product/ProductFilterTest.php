@@ -24,7 +24,7 @@ class ProductFilterTest extends TestCase
             factory(Category::class)->create([ 'slug' => 'example' ])
         );
 
-        $response = $this->get('/api/products?category=example');
+        $response = $this->json('GET', '/api/products?category=example');
 
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment([

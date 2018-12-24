@@ -16,7 +16,7 @@ class ProductShowTest extends TestCase
     {
         factory(Product::class)->create([ 'slug' => 'example' ]);
 
-        $response = $this->get('/api/products/example');
+        $response = $this->json('GET', '/api/products/example');
 
         $response->assertSuccessful();
     }
@@ -24,7 +24,7 @@ class ProductShowTest extends TestCase
     /** @test */
     function products_that_are_not_found_will_return_an_unsuccessful_status_code()
     {
-        $response = $this->get('/api/products/does-not-exist');
+        $response = $this->json('GET', '/api/products/does-not-exist');
 
         $response->assertNotFound();
     }
@@ -39,7 +39,7 @@ class ProductShowTest extends TestCase
             'price' => 650,
         ]);
 
-        $response = $this->get('/api/products/example-product');
+        $response = $this->json('GET', '/api/products/example-product');
 
         $response->assertJsonFragment([
             'name' => 'Example Product',

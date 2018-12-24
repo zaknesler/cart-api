@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -31,6 +32,20 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->password = Hash::make($user->password);
+        });
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
