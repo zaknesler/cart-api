@@ -6,4 +6,6 @@ Route::apiResource('/products', 'ProductController');
 Route::prefix('/auth')->namespace('Auth')->group(function () {
     Route::post('/register', 'RegisterController@store');
     Route::post('/login', 'LoginController@store');
+
+    Route::get('/me', 'MeController@view');
 });

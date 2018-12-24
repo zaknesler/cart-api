@@ -47,6 +47,7 @@ class LoginTest extends TestCase
     function a_user_can_be_authenticated()
     {
         $user = factory(User::class)->create([
+            'name' => 'Zak Nesler',
             'email' => 'zak@example.com',
             'password' => 'secret',
         ]);
@@ -58,6 +59,7 @@ class LoginTest extends TestCase
 
         $response->assertJsonFragment([
             'id' => 1,
+            'name' => 'Zak Nesler',
             'email' => 'zak@example.com',
         ]);
 
