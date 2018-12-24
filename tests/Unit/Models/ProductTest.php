@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Cart\Money;
 use Tests\TestCase;
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductVariation;
@@ -62,5 +63,59 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create(['price' => 150]);
 
         $this->assertEquals('$1.50', $product->formattedPrice);
+    }
+
+    /** @test */
+    function a_product_can_be_in_stock()
+    {
+        $product = factory(Product::class)->create();
+
+        $product->variations()->save(
+            $variation = factory(ProductVariation::class)->create()
+        );
+
+        $variation->stocks()->save(
+            factory(Stock::class)->make([
+                'quantity' => 5,
+            ])
+        );
+
+        $this->assertTrue($product->inStock());
+    }
+
+    /** @test */
+    function a_product_can_be_out_of_stock()
+    {
+        $product = factory(Product::class)->create();
+
+        $product->variations()->save(
+            $variation = factory(ProductVariation::class)->create()
+        );
+
+        $variation->stocks()->save(
+            factory(Stock::class)->make([
+                'quantity' => 0,
+            ])
+        );
+
+        $this->assertFalse($product->inStock());
+    }
+
+    /** @test */
+    function a_product_can_have_a_stock_count()
+    {
+        $product = factory(Product::class)->create();
+
+        $product->variations()->save(
+            $variation = factory(ProductVariation::class)->create()
+        );
+
+        $variation->stocks()->save(
+            factory(Stock::class)->make([
+                'quantity' => 5,
+            ])
+        );
+
+        $this->assertEquals(5, $product->stockCount());
     }
 }

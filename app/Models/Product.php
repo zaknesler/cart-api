@@ -34,6 +34,28 @@ class Product extends Model
     }
 
     /**
+     * Determine if a specific product has any stock in any variation.
+     *
+     * @return boolean
+     */
+    public function inStock()
+    {
+        return $this->stockCount() > 0;
+    }
+
+    /**
+     * Get the total stock for all variations.
+     *
+     * @return boolean
+     */
+    public function stockCount()
+    {
+        return $this->variations->sum(function ($variation) {
+            return $variation->stockCount();
+        });
+    }
+
+    /**
      * A product belongs to many categories.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
