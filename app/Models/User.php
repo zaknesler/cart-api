@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\UserCart;
+use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -65,5 +67,17 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * A user has a cart with products.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function cart()
+    {
+        return $this->belongsToMany(ProductVariation::class, 'user_cart')
+            ->using(UserCart::class)
+            ->withPivot('quantity');
     }
 }
