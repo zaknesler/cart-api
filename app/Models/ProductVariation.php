@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Cart\Money;
 use App\Models\Traits\HasPrices;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pivots\ProductVariationOrder;
 
 class ProductVariation extends Model
 {
@@ -47,6 +48,26 @@ class ProductVariation extends Model
     }
 
     /**
+     * Determine if a particular product variation is in stock.
+     *
+     * @return boolean
+     */
+    public function inStock()
+    {
+        return $this->stockCount() > 0;
+    }
+
+    /**
+     * Get the total stock for a particular product variation.
+     *
+     * @return int
+     */
+    public function stockCount()
+    {
+        return $this->stock->sum('pivot.stock');
+    }
+
+    /**
      * A product variation belongs to a product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -74,5 +95,17 @@ class ProductVariation extends Model
     public function stocks()
     {
         return $this->hasMany(Stock::class);
+    }
+
+    /**
+     * A product variation has a stock.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function stock()
+    {
+        return $this->belongsToMany(ProductVariation::class, 'product_variation_stock_view')
+            ->withPivot(['stock', 'in_stock'])
+            ->using(ProductVariationOrder::class);
     }
 }
