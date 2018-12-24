@@ -39,7 +39,7 @@ class CreateProductVariationStockView extends Migration
                 FROM product_variation_order
                 GROUP BY product_variation_order.product_variation_id
             ) AS product_variation_order USING (id)
-            GROUP BY product_variations.id
+            GROUP BY product_variations.id, product_variations.product_id
         ");
     }
 
