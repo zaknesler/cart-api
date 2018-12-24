@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Cart\Money;
 use App\Models\Traits\HasPrices;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pivots\ProductVariationOrder;
 
 class ProductVariation extends Model
 {
@@ -104,6 +105,7 @@ class ProductVariation extends Model
     public function stock()
     {
         return $this->belongsToMany(ProductVariation::class, 'product_variation_stock_view')
-            ->withPivot(['stock', 'in_stock']);
+            ->withPivot(['stock', 'in_stock'])
+            ->using(ProductVariationOrder::class);
     }
 }
