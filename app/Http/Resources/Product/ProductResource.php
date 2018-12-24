@@ -15,15 +15,11 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'description' => $this->description,
-            'price' => $this->formattedPrice,
+        return array_merge(parent::toArray($request), [
             'variations' => ProductVariationResource::collection(
-                $this->whenLoaded('variations')
+                $this->whenLoaded('variations')->groupBy('type.name')
             ),
-        ];
+            'price' => $this->formattedPrice,
+        ]);
     }
 }
