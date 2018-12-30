@@ -19,7 +19,7 @@ class CartTest extends TestCase
         $cart = new Cart($user = factory(User::class)->create());
         $product = factory(ProductVariation::class)->create();
 
-        $cart->addProducts([
+        $cart->add([
             ['id' => 1, 'quantity' => 1],
         ]);
 
@@ -32,14 +32,29 @@ class CartTest extends TestCase
         $user = factory(User::class)->create();
         $product = factory(ProductVariation::class)->create();
 
-        (new Cart($user))->addProducts([
+        (new Cart($user))->add([
             ['id' => 1, 'quantity' => 1],
         ]);
 
-        (new Cart($user->fresh()))->addProducts([
+        (new Cart($user->fresh()))->add([
             ['id' => 1, 'quantity' => 2],
         ]);
 
         $this->assertEquals(3, $user->fresh()->cart->first()->pivot->quantity);
+    }
+
+    /** @test */
+    function cart_quantities_can_be_updated()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->create();
+
+        (new Cart($user))->add([
+            ['id' => 1, 'quantity' => 5],
+        ]);
+
+        (new Cart($user->fresh()))->update($product->id, 2);
+
+        $this->assertEquals(2, $user->fresh()->cart->first()->pivot->quantity);
     }
 }
