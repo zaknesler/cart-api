@@ -6,6 +6,7 @@ use App\Cart\Cart;
 use Illuminate\Http\Request;
 use App\Models\ProductVariation;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Cart\CartResource;
 use App\Http\Requests\Cart\CartStoreRequest;
 use App\Http\Requests\Cart\CartUpdateRequest;
 
@@ -17,6 +18,22 @@ class CartController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+    }
+
+    /**
+     * Fetch all of the products in the user's cart.
+     *
+     * @return \Illuminate\Http\Resources\Json\JsonResource
+     */
+    public function index(Request $request)
+    {
+        $request->user()->load([
+            'cart.product',
+            'cart.product.variations.stock',
+            'cart.stock',
+        ]);
+
+        return new CartResource($request->user());
     }
 
     /**
