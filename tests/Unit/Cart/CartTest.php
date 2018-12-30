@@ -32,7 +32,7 @@ class CartTest extends TestCase
         $user = factory(User::class)->create();
         $product = factory(ProductVariation::class)->create();
 
-        (new Cart($user)->addProducts([
+        (new Cart($user))->addProducts([
             ['id' => 1, 'quantity' => 1],
         ]);
 
