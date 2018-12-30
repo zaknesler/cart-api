@@ -13,4 +13,5 @@ Route::prefix('/auth')->namespace('Auth')->group(function () {
 Route::prefix('/cart')->namespace('Cart')->group(function () {
     Route::post('/', 'CartController@store');
     Route::patch('/{productVariation}', 'CartController@update');
+    Route::delete('/{productVariation}', 'CartController@destroy');
 });

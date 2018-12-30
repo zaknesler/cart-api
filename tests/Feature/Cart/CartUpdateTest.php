@@ -13,7 +13,7 @@ class CartUpdateTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function must_be_authenticated()
+    function must_be_authenticated_to_update_a_product()
     {
         $response = $this->json('PATCH', '/api/cart/1');
 
@@ -21,7 +21,7 @@ class CartUpdateTest extends TestCase
     }
 
     /** @test */
-    function product_must_exist_or_else_it_will_fail()
+    function product_must_exist_when_trying_to_update_it()
     {
         $user = factory(User::class)->create();
 

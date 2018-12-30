@@ -32,7 +32,7 @@ class CartController extends Controller
     }
 
     /**
-     * Update the user's cart.
+     * Update a product in the user's cart.
      *
      * @param  \App\Models\ProductVariation  $productVariation
      * @param  \App\Http\Requests\Cart\CartUpdateRequest  $request
@@ -42,5 +42,17 @@ class CartController extends Controller
     public function update(ProductVariation $productVariation, CartUpdateRequest $request, Cart $cart)
     {
         $cart->update($productVariation->id, $request->quantity);
+    }
+
+    /**
+     * Remove a product from the user's cart.
+     *
+     * @param  \App\Models\ProductVariation  $productVariation
+     * @param  \App\Cart\Cart  $cart
+     * @return void
+     */
+    public function destroy(ProductVariation $productVariation, Cart $cart)
+    {
+        $cart->delete($productVariation->id);
     }
 }

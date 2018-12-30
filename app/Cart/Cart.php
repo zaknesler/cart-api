@@ -27,6 +27,7 @@ class Cart
      * Add products to the user's cart.
      *
      * @param  array  $products
+     * @return void
      */
     public function add($products)
     {
@@ -36,16 +37,38 @@ class Cart
     }
 
     /**
-     * Add products to the user's cart.
+     * Update the quantity of a product in the user's cart.
      *
      * @param  int  $productId
      * @param  int  $quantity
+     * @return void
      */
     public function update($productId, $quantity)
     {
         $this->user->cart()->updateExistingPivot($productId, [
             'quantity' => $quantity,
         ]);
+    }
+
+    /**
+     * Delete a product from the user's cart.
+     *
+     * @param  int  $productId
+     * @return void
+     */
+    public function delete($productId)
+    {
+        $this->user->cart()->detach($productId);
+    }
+
+    /**
+     * Empty all products from a user's cart.
+     *
+     * @return void
+     */
+    public function empty()
+    {
+        $this->user->cart()->detach();
     }
 
     /**

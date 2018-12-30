@@ -13,7 +13,7 @@ class CartStoreTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function must_be_authenticated()
+    function must_be_authenticated_to_store_a_product()
     {
         $response = $this->json('POST', '/api/cart');
 
