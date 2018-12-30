@@ -61,8 +61,6 @@ class ProductSeeder extends Seeder
             'price' => 3000,
         ]);
 
-        // Ground
-
         $typeGround = factory(ProductVariationType::class)->create([
             'name' => 'Ground',
         ]);
@@ -132,8 +130,6 @@ class ProductSeeder extends Seeder
             'name' => 'large',
             'price' => 5500,
         ]);
-
-        // Ground
 
         $typeRed = factory(ProductVariationType::class)->create([
             'name' => 'Red',
