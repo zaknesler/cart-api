@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Address;
 use App\Models\Pivots\UserCart;
 use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Hash;
@@ -80,5 +81,15 @@ class User extends Authenticatable implements JWTSubject
             ->using(UserCart::class)
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    /**
+     * A uesr has many addresses.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }
