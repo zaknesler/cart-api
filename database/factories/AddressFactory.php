@@ -13,5 +13,6 @@ $factory->define(Address::class, function (Faker $faker) {
         'country_id' => function () {
             return factory(Country::class)->create()->id;
         },
+        'default' => false,
     ];
 });
