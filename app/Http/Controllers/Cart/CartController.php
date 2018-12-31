@@ -33,7 +33,6 @@ class CartController extends Controller
         $request->user()->load([
             'cart.product',
             'cart.product.variations.stock',
-            'cart.stock',
         ]);
 
         return (new CartResource($request->user()))
