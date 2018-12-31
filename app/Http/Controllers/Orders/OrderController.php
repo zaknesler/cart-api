@@ -32,5 +32,15 @@ class OrderController extends Controller
                 'subtotal' => $cart->subtotal()->amount(),
             ])
         );
+
+        $products = $cart->products()
+            ->keyBy('id')
+            ->map(function ($product) {
+                return [
+                    'quantity' => $product->pivot->quantity,
+                ];
+            });
+
+        $order->products()->sync($products);
     }
 }

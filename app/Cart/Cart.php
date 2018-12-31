@@ -20,7 +20,7 @@ class Cart
      *
      * @var boolean
      */
-    protected $changed;
+    protected $changed = false;
 
     /**
      * The identifier for a shipping method.
@@ -37,6 +37,16 @@ class Cart
     public function __construct(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * Get all of the product variations in the user's cart.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function products()
+    {
+        return $this->user->cart;
     }
 
     /**
