@@ -23,9 +23,10 @@ class CartController extends Controller
     /**
      * Fetch all of the products in the user's cart.
      *
+     * @param  \App\Cart\Cart  $cart
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function index(Request $request)
+    public function index(Request $request, Cart $cart)
     {
         $request->user()->load([
             'cart.product',
@@ -33,7 +34,12 @@ class CartController extends Controller
             'cart.stock',
         ]);
 
-        return new CartResource($request->user());
+        return (new CartResource($request->user()))
+            ->additional(['meta' => [
+                'empty' => $cart->isEmpty(),
+                'subtotal' => $cart->subtotal()->formatted(),
+                'total' => $cart->total()->formatted(),
+            ]]);
     }
 
     /**

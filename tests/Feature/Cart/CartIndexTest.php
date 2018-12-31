@@ -35,4 +35,49 @@ class CartIndexTest extends TestCase
             'id' => 1,
         ]);
     }
+
+    /** @test */
+    function cart_shows_an_is_empty_attribute()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->create();
+
+        $user->cart()->attach($product);
+
+        $response = $this->jsonAs($user, 'GET', '/api/cart');
+
+        $response->assertJsonFragment([
+            'empty' => false,
+        ]);
+    }
+
+    /** @test */
+    function cart_index_shows_formatted_subtotal()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->create(['price' => 1000]);
+
+        $user->cart()->attach($product);
+
+        $response = $this->jsonAs($user, 'GET', '/api/cart');
+
+        $response->assertJsonFragment([
+            'subtotal' => '$10.00',
+        ]);
+    }
+
+    /** @test */
+    function cart_index_shows_formatted_total()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->create(['price' => 1000]);
+
+        $user->cart()->attach($product);
+
+        $response = $this->jsonAs($user, 'GET', '/api/cart');
+
+        $response->assertJsonFragment([
+            'total' => '$10.00',
+        ]);
+    }
 }
