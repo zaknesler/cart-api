@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Orders;
 
 use Illuminate\Validation\Rule;
+use App\Rules\Orders\ValidShippingMethod;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderStoreRequest extends FormRequest
@@ -34,6 +35,7 @@ class OrderStoreRequest extends FormRequest
             'shipping_method_id' => [
                 'required',
                 'exists:shipping_methods,id',
+                new ValidShippingMethod($this->address_id),
             ],
         ];
     }

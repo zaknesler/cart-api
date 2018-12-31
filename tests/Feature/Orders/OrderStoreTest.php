@@ -5,6 +5,8 @@ namespace Tests\Feature\Orders;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Address;
+use App\Models\Country;
+use App\Models\ShippingMethod;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -74,6 +76,23 @@ class OrderStoreTest extends TestCase
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'shipping_method_id' => 1,
+        ]);
+
+        $response->assertJsonValidationErrors('shipping_method_id');
+    }
+
+    /** @test */
+    function storing_an_order_requires_a_shipping_method_valid_for_the_given_address()
+    {
+        $user = factory(User::class)->create();
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create([
+            'user_id' => 1,
+        ]);
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'shipping_method_id' => 1,
+            'address_id' => 1,
         ]);
 
         $response->assertJsonValidationErrors('shipping_method_id');
