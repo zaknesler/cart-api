@@ -9,6 +9,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const PENDING = 'pending';
+    const PROCESSING = 'processing';
+    const PAYMENT_FAILED = 'payment_failed';
+    const COMPLETED = 'completed';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'status',
+        'address_id',
+        'shipping_method_id',
+    ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->status = self::PENDING;
+        });
+    }
+
     /**
      * An order belongs to a user.
      *

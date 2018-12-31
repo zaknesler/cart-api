@@ -16,9 +16,14 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('address_id')->unsigned()->index();
+            $table->integer('shipping_method_id')->unsigned()->index();
+            $table->string('status')->default('pending');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('address_id')->references('id')->on('addresses');
+            $table->foreign('shipping_method_id')->references('id')->on('shipping_methods');
         });
     }
 

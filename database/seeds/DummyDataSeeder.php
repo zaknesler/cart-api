@@ -1,13 +1,16 @@
 <?php
 
+use App\Models\User;
 use App\Models\Stock;
+use App\Models\Country;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ShippingMethod;
 use Illuminate\Database\Seeder;
 use App\Models\ProductVariation;
 use App\Models\ProductVariationType;
 
-class ProductSeeder extends Seeder
+class DummyDataSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,13 +21,59 @@ class ProductSeeder extends Seeder
     {
         $this->coffee();
         $this->shirt();
+        $this->productStocks();
+        $this->shippingMethods();
+        $this->user();
+    }
 
+    private function user()
+    {
+        $user = User::create([
+            'name' => 'Zak Nesler',
+            'email' => 'zaknesler@gmail.com',
+            'password' => 'secret',
+        ]);
+
+        $user->addresses()->create([
+            'default' => true,
+            'name' => 'Zak Nesler',
+            'address_1' => '123 Sunnyside Lane',
+            'city' => 'Fakeville',
+            'postal_code' => '12345',
+            'country_id' => Country::where('code', 'US')->first()->id,
+        ]);
+    }
+
+    private function productStocks()
+    {
         ProductVariation::get()->each(function ($variation) {
             factory(Stock::class)->create([
                 'product_variation_id' => $variation->id,
                 'quantity' => 10,
             ]);
         });
+    }
+
+    private function shippingMethods()
+    {
+        Country::where('code', 'US')->first()->shippingMethods()->saveMany([
+            factory(ShippingMethod::class)->create([
+                'name' => 'UPS',
+                'price' => 1000,
+            ]),
+            factory(ShippingMethod::class)->create([
+                'name' => 'UPS Business',
+                'price' => 2000,
+            ]),
+            factory(ShippingMethod::class)->create([
+                'name' => 'USPS First-class',
+                'price' => 2500,
+            ]),
+            factory(ShippingMethod::class)->create([
+                'name' => 'USPS Next-day',
+                'price' => 3000,
+            ]),
+        ]);
     }
 
     private function coffee()
