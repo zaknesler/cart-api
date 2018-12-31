@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\ShippingMethod;
+use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -53,5 +54,33 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Address::class, $order->address);
+    }
+
+    /** @test */
+    function an_order_has_many_product_variations()
+    {
+        $order = factory(Order::class)->create();
+
+        $order->products()->attach(
+            factory(ProductVariation::class)->create(), [
+                'quantity' => 1,
+            ]
+        );
+
+        $this->assertInstanceOf(ProductVariation::class, $order->products->first());
+    }
+
+    /** @test */
+    function an_order_has_a_product_variation_with_a_quantity()
+    {
+        $order = factory(Order::class)->create();
+
+        $order->products()->attach(
+            factory(ProductVariation::class)->create(), [
+                'quantity' => 3,
+            ]
+        );
+
+        $this->assertEquals(3, $order->products->first()->pivot->quantity);
     }
 }

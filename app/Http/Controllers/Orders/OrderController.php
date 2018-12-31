@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Orders;
 
 use App\Cart\Cart;
 use Illuminate\Http\Request;
+use App\Models\ProductVariation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\OrderStoreRequest;
 
@@ -26,7 +27,7 @@ class OrderController extends Controller
      */
     public function store(OrderStoreRequest $request, Cart $cart)
     {
-        $request->user()->orders()->create(
+        $order = $request->user()->orders()->create(
             array_merge($request->validated(), [
                 'subtotal' => $cart->subtotal()->amount(),
             ])
