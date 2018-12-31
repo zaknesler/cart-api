@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\ShippingMethods;
 
 use App\Cart\Money;
 use Tests\TestCase;
+use App\Models\Country;
 use App\Models\ShippingMethod;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,5 +29,17 @@ class ShippingMethodTest extends TestCase
         ]);
 
         $this->assertEquals('$5.00', $shippingMethod->price->formatted());
+    }
+
+    /** @test */
+    function a_shipping_method_belongs_to_many_countries()
+    {
+        $shippingMethod = factory(ShippingMethod::class)->create();
+
+        $shippingMethod->countries()->attach(
+            factory(Country::class)->create()
+        );
+
+        $this->assertInstanceOf(Country::class, $shippingMethod->countries()->first());
     }
 }
