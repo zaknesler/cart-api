@@ -36,7 +36,7 @@ class Product extends Model
     /**
      * Determine if a specific product has any stock in any variation.
      *
-     * @return boolean
+     * @return bool
      */
     public function inStock()
     {
@@ -46,7 +46,7 @@ class Product extends Model
     /**
      * Get the total stock for all variations.
      *
-     * @return boolean
+     * @return bool
      */
     public function stockCount()
     {

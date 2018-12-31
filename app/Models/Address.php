@@ -47,6 +47,11 @@ class Address extends Model
         });
     }
 
+    /**
+     * Set the value of the default attribute
+     *
+     * @param string|bool  $value
+     */
     public function setDefaultAttribute($value)
     {
         $this->attributes['default'] = (($value === 'true' || $value) ? true : false);

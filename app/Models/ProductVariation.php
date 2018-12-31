@@ -40,7 +40,7 @@ class ProductVariation extends Model
     /**
      * Determine if a product variation's price differs from its parent product.
      *
-     * @return boolean
+     * @return bool
      */
     public function priceVaries()
     {
@@ -50,7 +50,7 @@ class ProductVariation extends Model
     /**
      * Determine if a particular product variation is in stock.
      *
-     * @return boolean
+     * @return bool
      */
     public function inStock()
     {
@@ -116,7 +116,7 @@ class ProductVariation extends Model
     public function stock()
     {
         return $this->belongsToMany(ProductVariation::class, 'product_variation_stock_view')
-            ->withPivot(['stock', 'in_stock'])
-            ->using(ProductVariationOrder::class);
+                    ->withPivot(['stock', 'in_stock'])
+                    ->using(ProductVariationOrder::class);
     }
 }

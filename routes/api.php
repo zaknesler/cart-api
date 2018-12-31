@@ -26,6 +26,8 @@ Route::prefix('/cart')->namespace('Cart')->group(function () {
 Route::prefix('/addresses')->namespace('Addresses')->group(function () {
     Route::get('/', 'AddressController@index');
     Route::post('/', 'AddressController@store');
+
+    Route::get('/{address}/shipping', 'AddressShippingController@index');
 });
 
 Route::prefix('/countries')->namespace('Countries')->group(function () {
