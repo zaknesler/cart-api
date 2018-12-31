@@ -68,6 +68,17 @@ class ProductVariation extends Model
     }
 
     /**
+     * Determine the minimum number of products in stock.
+     *
+     * @param  int  $count
+     * @return int
+     */
+    public function minStock($count)
+    {
+        return min($this->stockCount(), $count);
+    }
+
+    /**
      * A product variation belongs to a product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

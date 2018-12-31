@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,13 @@ class ProductSeeder extends Seeder
     {
         $this->coffee();
         $this->shirt();
+
+        ProductVariation::get()->each(function ($variation) {
+            factory(Stock::class)->create([
+                'product_variation_id' => $variation->id,
+                'quantity' => 10,
+            ]);
+        });
     }
 
     private function coffee()

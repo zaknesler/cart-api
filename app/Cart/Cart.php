@@ -15,6 +15,13 @@ class Cart
     protected $user;
 
     /**
+     * Has the maximum quantity of a product changed?
+     *
+     * @var boolean
+     */
+    protected $changed;
+
+    /**
      * Create a new instance of a user's cart.
      *
      * @param \App\Models\User  $user
@@ -60,6 +67,34 @@ class Cart
     public function delete($productId)
     {
         $this->user->cart()->detach($productId);
+    }
+
+    /**
+     * Sync the quantity of an item in the cart with the actual stock.
+     *
+     * @return void
+     */
+    public function sync()
+    {
+        $this->user->cart->each(function ($product) {
+            $quantity = $product->minStock($product->pivot->quantity);
+
+            $this->changed = $quantity != $product->pivot->quantity;
+
+            $product->pivot->update([
+                'quantity' => $quantity,
+            ]);
+        });
+    }
+
+    /**
+     * Determine if the quantity of a product in the cart has changed.
+     *
+     * @return boolean
+     */
+    public function hasChanged()
+    {
+        return $this->changed;
     }
 
     /**

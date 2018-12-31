@@ -16,3 +16,16 @@ $factory->define(App\Models\ProductVariation::class, function (Faker $faker) {
         },
     ];
 });
+
+$factory->state(App\Models\ProductVariation::class, 'stock', function (Faker $faker) {
+    return [
+        //
+    ];
+});
+
+$factory->afterCreatingState(App\Models\ProductVariation::class, 'stock', function ($variation, Faker $faker) {
+    factory(\App\Models\Stock::class)->create([
+        'product_variation_id' => $variation->id,
+        'quantity' => 50,
+    ]);
+});
