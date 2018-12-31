@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\ShippingMethod;
+use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -110,11 +111,33 @@ class OrderStoreTest extends TestCase
         ]);
 
         $response->assertSuccessful();
-
         $this->assertDatabaseHas('orders', [
             'user_id' => 1,
             'address_id' => 1,
             'shipping_method_id' => 1,
+        ]);
+    }
+
+    /** @test */
+    function products_are_attached_to_the_created_order()
+    {
+        $user = factory(User::class)->create();
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create(['user_id' => 1]);
+        $shippingMethod->countries()->attach($address->country);
+
+        $user->cart()->sync(
+            $product = factory(ProductVariation::class)->state('stocked')->create()
+        );
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
+
+        $this->assertDatabaseHas('order_product_variation', [
+            'product_variation_id' => 1,
+            'order_id' => 1,
         ]);
     }
 }
