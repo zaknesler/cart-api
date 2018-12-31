@@ -1,13 +1,19 @@
 <?php
 
-Route::apiResource('/categories', 'CategoryController');
-Route::apiResource('/products', 'ProductController');
-
 Route::prefix('/auth')->namespace('Auth')->group(function () {
     Route::post('/register', 'RegisterController@store');
     Route::post('/login', 'LoginController@store');
 
     Route::get('/me', 'MeController@view');
+});
+
+Route::prefix('/categories')->namespace('Categories')->group(function () {
+    Route::get('/', 'CategoryController@index');
+});
+
+Route::prefix('/products')->namespace('Products')->group(function () {
+    Route::get('/', 'ProductController@index');
+    Route::get('/{product}', 'ProductController@show');
 });
 
 Route::prefix('/cart')->namespace('Cart')->group(function () {
