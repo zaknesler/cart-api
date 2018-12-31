@@ -86,9 +86,7 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $address = factory(Address::class)->create([
-            'user_id' => 1,
-        ]);
+        $address = factory(Address::class)->create(['user_id' => 1]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'shipping_method_id' => 1,
@@ -96,5 +94,27 @@ class OrderStoreTest extends TestCase
         ]);
 
         $response->assertJsonValidationErrors('shipping_method_id');
+    }
+
+    /** @test */
+    function a_user_can_create_an_order()
+    {
+        $user = factory(User::class)->create();
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create(['user_id' => 1]);
+        $shippingMethod->countries()->attach($address->country);
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseHas('orders', [
+            'user_id' => 1,
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
     }
 }

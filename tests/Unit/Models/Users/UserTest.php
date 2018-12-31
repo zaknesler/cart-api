@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Users;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Address;
 use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -59,5 +60,17 @@ class UserTest extends TestCase
         );
 
         $this->assertInstanceOf(Address::class, $user->addresses()->first());
+    }
+
+    /** @test */
+    function a_user_has_many_orders()
+    {
+        $user = factory(User::class)->create();
+
+        $user->orders()->save(
+            factory(Order::class)->make()
+        );
+
+        $this->assertInstanceOf(Order::class, $user->orders()->first());
     }
 }

@@ -18,5 +18,6 @@ $factory->define(Order::class, function (Faker $faker) {
             return factory(User::class)->create()->id;
         },
         'status' => 'pending',
+        'subtotal' => 0,
     ];
 });
