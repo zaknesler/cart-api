@@ -32,6 +32,8 @@ class ProductShowTest extends TestCase
     /** @test */
     function a_product_can_be_viewed()
     {
+        $this->withoutExceptionHandling();
+
         factory(Product::class)->create([
             'name' => 'Example Product',
             'slug' => 'example-product',

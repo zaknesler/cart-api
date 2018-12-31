@@ -6,6 +6,7 @@ use App\Cart\Money;
 use App\Models\Traits\HasPrices;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Pivots\ProductVariationStock;
+use App\Models\Collections\ProductVariationCollection;
 
 class ProductVariation extends Model
 {
@@ -76,6 +77,17 @@ class ProductVariation extends Model
     public function minStock($count)
     {
         return min($this->stockCount(), $count);
+    }
+
+    /**
+     * Create a custom Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new ProductVariationCollection($models);
     }
 
     /**

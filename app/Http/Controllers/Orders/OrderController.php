@@ -33,14 +33,6 @@ class OrderController extends Controller
             ])
         );
 
-        $products = $cart->products()
-            ->keyBy('id')
-            ->map(function ($product) {
-                return [
-                    'quantity' => $product->pivot->quantity,
-                ];
-            });
-
-        $order->products()->sync($products);
+        $order->products()->sync($cart->products()->forSyncing());
     }
 }
