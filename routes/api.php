@@ -33,3 +33,7 @@ Route::prefix('/addresses')->namespace('Addresses')->group(function () {
 Route::prefix('/countries')->namespace('Countries')->group(function () {
     Route::get('/', 'CountryController@index');
 });
+
+Route::prefix('/orders')->namespace('Orders')->group(function () {
+    Route::post('/', 'OrderController@store');
+});
