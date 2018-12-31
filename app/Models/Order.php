@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Address;
-use App\Models\ShippingMethod;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model

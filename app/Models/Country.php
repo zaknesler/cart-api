@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\ShippingMethod;
 use App\Models\Pivots\CountryShippingMethod;
 use Illuminate\Database\Eloquent\Model;
 

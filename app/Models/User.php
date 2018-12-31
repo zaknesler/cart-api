@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Address;
 use App\Models\Pivots\UserCart;
-use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -91,5 +89,15 @@ class User extends Authenticatable implements JWTSubject
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    /**
+     * A uesr has many orders.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

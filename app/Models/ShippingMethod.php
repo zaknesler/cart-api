@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Country;
 use App\Models\Traits\HasPrices;
 use App\Models\Pivots\CountryShippingMethod;
 use Illuminate\Database\Eloquent\Model;
