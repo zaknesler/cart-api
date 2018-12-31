@@ -8,6 +8,8 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\ShippingMethod;
 use App\Models\ProductVariation;
+use App\Events\Orders\OrderCreated;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -98,12 +100,39 @@ class OrderStoreTest extends TestCase
     }
 
     /** @test */
+    function user_cannot_store_an_order_if_their_cart_is_empty()
+    {
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync([
+            factory(ProductVariation::class)->state('stocked')->create()->id => [
+                'quantity' => 0,
+            ],
+        ]);
+
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create(['user_id' => 1]);
+        $shippingMethod->countries()->attach($address->country);
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /** @test */
     function a_user_can_create_an_order()
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
+
+        $user->cart()->sync(
+            factory(ProductVariation::class)->state('stocked')->create()
+        );
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -139,5 +168,49 @@ class OrderStoreTest extends TestCase
             'product_variation_id' => 1,
             'order_id' => 1,
         ]);
+    }
+
+    /** @test */
+    function order_created_event_is_fired_when_order_is_stored()
+    {
+        Event::fake();
+
+        $user = factory(User::class)->create();
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create(['user_id' => 1]);
+        $shippingMethod->countries()->attach($address->country);
+
+        $user->cart()->sync(
+            $product = factory(ProductVariation::class)->state('stocked')->create()
+        );
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
+
+        Event::assertDispatched(OrderCreated::class, function ($event) {
+            return $event->order->id === 1;
+        });
+    }
+
+    /** @test */
+    function after_an_order_is_stored_the_users_cart_is_emptied()
+    {
+        $user = factory(User::class)->create();
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $address = factory(Address::class)->create(['user_id' => 1]);
+        $shippingMethod->countries()->attach($address->country);
+
+        $user->cart()->sync(
+            $product = factory(ProductVariation::class)->state('stocked')->create()
+        );
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'address_id' => 1,
+            'shipping_method_id' => 1,
+        ]);
+
+        $this->assertTrue($user->cart->isEmpty());
     }
 }
