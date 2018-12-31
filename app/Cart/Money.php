@@ -51,4 +51,27 @@ class Money
     {
         return $this->money->getAmount();
     }
+
+    /**
+     * Add the value of one money instance to the current money instance.
+     *
+     * @param  \App\Cart\Money  $money
+     * @return self
+     */
+    public function add(Money $money)
+    {
+        $this->money = $this->money->add($money->instance());
+
+        return $this;
+    }
+
+    /**
+     * Get the instance of a money implementation.
+     *
+     * @return \App\Cart\Money
+     */
+    public function instance()
+    {
+        return $this->money;
+    }
 }

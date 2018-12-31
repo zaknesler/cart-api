@@ -6,6 +6,7 @@ use App\Cart\Cart;
 use App\Cart\Money;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\ShippingMethod;
 use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -154,5 +155,63 @@ class CartTest extends TestCase
 
         $this->assertEquals(0, $user->fresh()->cart->first()->pivot->quantity);
         $this->assertTrue($cart->hasChanged());
+    }
+
+    /** @test */
+    function cart_returns_the_correct_total_without_shipping()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $user->cart()->attach(
+            $product = factory(ProductVariation::class)->create([
+                'price' => 1000,
+            ]), [
+                'quantity' => 2,
+            ]
+        );
+
+        $this->assertEquals(2000, $cart->total()->amount());
+    }
+
+    /** @test */
+    function cart_returns_the_correct_total_with_shipping()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $shippingMethod = factory(ShippingMethod::class)->create([
+            'price' => 500,
+        ]);
+
+        $user->cart()->attach(
+            $product = factory(ProductVariation::class)->create([
+                'price' => 1000,
+            ]), [
+                'quantity' => 2,
+            ]
+        );
+
+        $cart = $cart->withShippingMethod($shippingMethod->id);
+
+        $this->assertEquals(2500, $cart->total()->amount());
+    }
+
+    /** @test */
+    function cart_must_not_be_empty_to_return_value_with_shipping_added()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $shippingMethod = factory(ShippingMethod::class)->create([
+            'price' => 500,
+        ]);
+
+        $cart = $cart->withShippingMethod($shippingMethod->id);
+
+        $this->assertEquals(0, $cart->total()->amount());
     }
 }

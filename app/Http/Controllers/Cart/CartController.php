@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductVariation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cart\CartResource;
+use App\Http\Requests\Cart\CartIndexRequest;
 use App\Http\Requests\Cart\CartStoreRequest;
 use App\Http\Requests\Cart\CartUpdateRequest;
 
@@ -23,10 +24,11 @@ class CartController extends Controller
     /**
      * Fetch all of the products in the user's cart.
      *
+     * @param  \App\Http\Requests\Cart\CartIndexRequest  $request
      * @param  \App\Cart\Cart  $cart
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function index(Request $request, Cart $cart)
+    public function index(CartIndexRequest $request, Cart $cart)
     {
         $cart->sync();
 
@@ -39,7 +41,9 @@ class CartController extends Controller
             ->additional(['meta' => [
                 'empty' => $cart->isEmpty(),
                 'subtotal' => $cart->subtotal()->formatted(),
-                'total' => $cart->total()->formatted(),
+                'total' => $cart->withShippingMethod($request->shipping_method_id)
+                                ->total()
+                                ->formatted(),
                 'changed' => $cart->hasChanged(),
             ]]);
     }

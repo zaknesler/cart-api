@@ -4,6 +4,7 @@ namespace App\Cart;
 
 use App\Cart\Money;
 use App\Models\User;
+use App\Models\ShippingMethod;
 
 class Cart
 {
@@ -20,6 +21,13 @@ class Cart
      * @var boolean
      */
     protected $changed;
+
+    /**
+     * The identifier for a shipping method.
+     *
+     * @var \App\Models\ShippingMethod
+     */
+    protected $shippingMethod;
 
     /**
      * Create a new instance of a user's cart.
@@ -88,16 +96,6 @@ class Cart
     }
 
     /**
-     * Determine if the quantity of a product in the cart has changed.
-     *
-     * @return boolean
-     */
-    public function hasChanged()
-    {
-        return $this->changed;
-    }
-
-    /**
      * Empty all products from a user's cart.
      *
      * @return void
@@ -105,6 +103,19 @@ class Cart
     public function empty()
     {
         $this->user->cart()->detach();
+    }
+
+    /**
+     * Attach a specified shipping method to the cart.
+     *
+     * @param  int  $shippingMethod
+     * @return self
+     */
+    public function withShippingMethod($shippingMethodId)
+    {
+        $this->shippingMethod = ShippingMethod::find($shippingMethodId);
+
+        return $this;
     }
 
     /**
@@ -138,6 +149,10 @@ class Cart
      */
     public function total()
     {
+        if (!$this->isEmpty() && $this->shippingMethod) {
+            return $this->subtotal()->add($this->shippingMethod->price);
+        }
+
         return $this->subtotal();
     }
 
@@ -169,5 +184,15 @@ class Cart
         }
 
         return 0;
+    }
+
+    /**
+     * Determine if the quantity of a product in the cart has changed.
+     *
+     * @return boolean
+     */
+    public function hasChanged()
+    {
+        return $this->changed;
     }
 }
