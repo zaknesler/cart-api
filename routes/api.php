@@ -21,3 +21,7 @@ Route::prefix('/addresses')->namespace('Addresses')->group(function () {
     Route::get('/', 'AddressController@index');
     Route::post('/', 'AddressController@store');
 });
+
+Route::prefix('/countries')->namespace('Countries')->group(function () {
+    Route::get('/', 'CountryController@index');
+});
