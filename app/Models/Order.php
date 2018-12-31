@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Pivots\ProductVariationOrder;
+use App\Models\Pivots\OrderProductVariation;
 
 class Order extends Model
 {
@@ -75,8 +75,8 @@ class Order extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(ProductVariation::class, 'product_variation_order')
-                    ->using(ProductVariationOrder::class)
+        return $this->belongsToMany(ProductVariation::class, 'order_product_variation')
+                    ->using(OrderProductVariation::class)
                     ->withPivot(['quantity'])
                     ->withTimestamps();
     }

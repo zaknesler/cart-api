@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Models\ProductVariation;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProductVariationOrder extends Pivot
+class OrderProductVariation extends Pivot
 {
     /**
      * The attributes that are mass assignable.
@@ -15,15 +15,6 @@ class ProductVariationOrder extends Pivot
      */
     protected $fillable = [
         'quantity',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'in_stock' => 'boolean',
     ];
 
     /**
