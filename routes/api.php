@@ -16,3 +16,7 @@ Route::prefix('/cart')->namespace('Cart')->group(function () {
     Route::patch('/{productVariation}', 'CartController@update');
     Route::delete('/{productVariation}', 'CartController@destroy');
 });
+
+Route::prefix('/addresses')->namespace('Addresses')->group(function () {
+    Route::get('/', 'AddressController@index');
+});
