@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
+use App\Models\PaymentMethod;
 use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -56,7 +57,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $user->addresses()->save(
-            factory(Address::class)->make()
+            factory(Address::class)->create()
         );
 
         $this->assertInstanceOf(Address::class, $user->addresses()->first());
@@ -68,9 +69,21 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $user->orders()->save(
-            factory(Order::class)->make()
+            factory(Order::class)->create()
         );
 
         $this->assertInstanceOf(Order::class, $user->orders()->first());
+    }
+
+    /** @test */
+    function a_user_has_many_payment_methods()
+    {
+        $user = factory(User::class)->create();
+
+        $user->paymentMethods()->save(
+            factory(PaymentMethod::class)->create()
+        );
+
+        $this->assertInstanceOf(PaymentMethod::class, $user->paymentMethods()->first());
     }
 }
