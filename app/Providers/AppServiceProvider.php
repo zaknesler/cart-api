@@ -3,10 +3,21 @@
 namespace App\Providers;
 
 use App\Cart\Cart;
+use App\Cart\Payments\PaymentGateway;
 use Illuminate\Support\ServiceProvider;
+use App\Cart\Payments\Gateways\StripePaymentGateway;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * All of the container singletons that should be registered.
+     *
+     * @var array
+     */
+    public $singletons = [
+        PaymentGateway::class => StripePaymentGateway::class,
+    ];
+
     /**
      * Bootstrap any application services.
      *

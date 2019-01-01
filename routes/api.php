@@ -41,4 +41,5 @@ Route::prefix('/orders')->namespace('Orders')->group(function () {
 
 Route::prefix('/payment-methods')->namespace('PaymentMethods')->group(function () {
     Route::get('/', 'PaymentMethodController@index');
+    Route::post('/', 'PaymentMethodController@store');
 });
