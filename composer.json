@@ -15,6 +15,7 @@
         "laravel/telescope": "^1.0",
         "laravel/tinker": "^1.0",
         "moneyphp/money": "^3.2",
+        "stripe/stripe-php": "^6.27",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
