@@ -42,6 +42,29 @@ class DummyDataSeeder extends Seeder
             'postal_code' => '12345',
             'country_id' => Country::where('code', 'US')->first()->id,
         ]);
+
+        $user->addresses()->create([
+            'default' => false,
+            'name' => 'Zak Nesler',
+            'address_1' => '456 Wonderful Avenue',
+            'city' => 'Unrealestate',
+            'postal_code' => '90210',
+            'country_id' => Country::where('code', 'US')->first()->id,
+        ]);
+
+        $user->paymentMethods()->create([
+            'default' => true,
+            'card_type' => 'Visa',
+            'last_four' => '4242',
+            'provider_id' => str_random(32),
+        ]);
+
+        $user->paymentMethods()->create([
+            'default' => false,
+            'card_type' => 'MasterCard',
+            'last_four' => '1234',
+            'provider_id' => str_random(32),
+        ]);
     }
 
     private function productStocks()

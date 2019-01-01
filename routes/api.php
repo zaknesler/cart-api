@@ -38,3 +38,7 @@ Route::prefix('/orders')->namespace('Orders')->group(function () {
     Route::get('/', 'OrderController@index');
     Route::post('/', 'OrderController@store');
 });
+
+Route::prefix('/payment-methods')->namespace('PaymentMethods')->group(function () {
+    Route::get('/', 'PaymentMethodController@index');
+});
