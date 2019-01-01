@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Address;
 use App\Models\Country;
+use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use App\Models\ProductVariation;
 use App\Events\Orders\OrderCreated;
@@ -111,6 +112,21 @@ class OrderStoreTest extends TestCase
     }
 
     /** @test */
+    function storing_an_order_requires_a_payment_method()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders');
+
+        $response->assertJsonValidationErrors('payment_method_id');
+    }
+
+    /** @test */
     function storing_an_order_requires_a_shipping_method_valid_for_the_given_address()
     {
         $user = factory(User::class)->create();
@@ -129,6 +145,23 @@ class OrderStoreTest extends TestCase
         ]);
 
         $response->assertJsonValidationErrors('shipping_method_id');
+    }
+
+    /** @test */
+    function storing_an_order_requires_a_payment_method_that_exists()
+    {
+        $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
+
+        $response = $this->jsonAs($user, 'POST', '/api/orders', [
+            'payment_method_id' => 1,
+        ]);
+
+        $response->assertJsonValidationErrors('payment_method_id');
     }
 
     /** @test */
@@ -159,6 +192,7 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
+        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
@@ -169,6 +203,7 @@ class OrderStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
             'shipping_method_id' => 1,
+            'payment_method_id' => 1,
         ]);
 
         $response->assertSuccessful();
@@ -176,6 +211,7 @@ class OrderStoreTest extends TestCase
             'user_id' => 1,
             'address_id' => 1,
             'shipping_method_id' => 1,
+            'payment_method_id' => 1,
         ]);
     }
 
@@ -184,6 +220,7 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
+        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
@@ -194,6 +231,7 @@ class OrderStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
             'shipping_method_id' => 1,
+            'payment_method_id' => 1,
         ]);
 
         $this->assertDatabaseHas('order_product_variation', [
@@ -209,6 +247,7 @@ class OrderStoreTest extends TestCase
 
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
+        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
@@ -219,6 +258,7 @@ class OrderStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
             'shipping_method_id' => 1,
+            'payment_method_id' => 1,
         ]);
 
         Event::assertDispatched(OrderCreated::class, function ($event) {
@@ -231,6 +271,7 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
+        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
@@ -241,6 +282,7 @@ class OrderStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
             'shipping_method_id' => 1,
+            'payment_method_id' => 1,
         ]);
 
         $this->assertTrue($user->cart->isEmpty());

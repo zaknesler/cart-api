@@ -39,6 +39,7 @@ class OrderController extends Controller
                 'products.product.variations.stock',
                 'address',
                 'shippingMethod',
+                'paymentMethod',
             ])->latest()->paginate(10);
 
         return OrderResource::collection($orders);

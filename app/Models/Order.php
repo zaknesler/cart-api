@@ -23,6 +23,7 @@ class Order extends Model
         'subtotal',
         'address_id',
         'shipping_method_id',
+        'payment_method_id',
     ];
 
     /**
@@ -88,6 +89,16 @@ class Order extends Model
     public function shippingMethod()
     {
         return $this->belongsTo(ShippingMethod::class);
+    }
+
+    /**
+     * An order belongs to a payment method.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     /**
