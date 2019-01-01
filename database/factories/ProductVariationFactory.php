@@ -2,9 +2,10 @@
 
 use App\Models\Product;
 use Faker\Generator as Faker;
+use App\Models\ProductVariation;
 use App\Models\ProductVariationType;
 
-$factory->define(App\Models\ProductVariation::class, function (Faker $faker) {
+$factory->define(ProductVariation::class, function (Faker $faker) {
     return [
         'product_id' => function () {
             return factory(Product::class)->create()->id;

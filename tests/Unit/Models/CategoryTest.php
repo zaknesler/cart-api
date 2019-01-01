@@ -41,8 +41,8 @@ class CategoryTest extends TestCase
     /** @test */
     function categories_can_be_ordered()
     {
-        $categoryA = factory(Category::class)->create([ 'order' => 2 ]);
-        $categoryB = factory(Category::class)->create([ 'order' => 1 ]);
+        $categoryA = factory(Category::class)->create(['order' => 2]);
+        $categoryB = factory(Category::class)->create(['order' => 1]);
 
         $this->assertEquals($categoryB->id, Category::ordered()->first()->id);
     }

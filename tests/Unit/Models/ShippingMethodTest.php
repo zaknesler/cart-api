@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\ShippingMethods;
+namespace Tests\Unit\Models;
 
 use App\Cart\Money;
 use Tests\TestCase;

@@ -14,7 +14,7 @@ class ProductShowTest extends TestCase
     /** @test */
     function the_product_show_endpoint_returns_a_successful_status_code()
     {
-        factory(Product::class)->create([ 'slug' => 'example' ]);
+        factory(Product::class)->create(['slug' => 'example']);
 
         $response = $this->json('GET', '/api/products/example');
 

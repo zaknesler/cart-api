@@ -18,10 +18,10 @@ class ProductFilterTest extends TestCase
         factory(Product::class, 2)->create();
         factory(Category::class, 2)->create();
 
-        $product = factory(Product::class)->create([ 'name' => 'Test Product' ]);
+        $product = factory(Product::class)->create(['name' => 'Test Product']);
 
         $product->categories()->save(
-            factory(Category::class)->create([ 'slug' => 'example' ])
+            factory(Category::class)->create(['slug' => 'example'])
         );
 
         $response = $this->json('GET', '/api/products?category=example');

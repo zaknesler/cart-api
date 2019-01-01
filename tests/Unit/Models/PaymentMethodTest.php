@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\PaymentMethods;
+namespace Tests\Unit\Models;
 
 use Tests\TestCase;
 use App\Models\User;
