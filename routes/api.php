@@ -35,5 +35,6 @@ Route::prefix('/countries')->namespace('Countries')->group(function () {
 });
 
 Route::prefix('/orders')->namespace('Orders')->group(function () {
+    Route::get('/', 'OrderController@index');
     Route::post('/', 'OrderController@store');
 });

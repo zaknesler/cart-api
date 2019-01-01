@@ -26,7 +26,7 @@ class CartController extends Controller
      *
      * @param  \App\Http\Requests\Cart\CartIndexRequest  $request
      * @param  \App\Cart\Cart  $cart
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(CartIndexRequest $request, Cart $cart)
     {
@@ -51,7 +51,7 @@ class CartController extends Controller
      *
      * @param  \App\Http\Requests\Cart\CartStoreRequest  $request
      * @param  \App\Cart\Cart  $cart
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(CartStoreRequest $request, Cart $cart)
     {

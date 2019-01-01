@@ -12,7 +12,7 @@ class CountryController extends Controller
     /**
      * Fetch all of the countries.
      *
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {

@@ -17,7 +17,26 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'cart.sync', 'cart.checkIsEmpty']);
+        $this->middleware('auth:api');
+        $this->middleware(['cart.sync', 'cart.checkIsEmpty'])->only('store');
+    }
+
+    /**
+     * Get an index of a user's orders.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        $orders = $request->user()->orders()
+            ->with([
+                'products',
+                'address',
+                'shippingMethod',
+            ])->latest()->paginate(10);
+
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -25,7 +44,7 @@ class OrderController extends Controller
      *
      * @param  \App\Http\Requests\Orders\OrderStoreRequest  $request
      * @param  \App\Cart\Cart  $cart
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(OrderStoreRequest $request, Cart $cart)
     {

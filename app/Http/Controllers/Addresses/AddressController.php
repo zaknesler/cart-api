@@ -21,7 +21,7 @@ class AddressController extends Controller
      * Get a list of the user's addresses.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {

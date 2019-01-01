@@ -12,7 +12,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the ordered categories.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
