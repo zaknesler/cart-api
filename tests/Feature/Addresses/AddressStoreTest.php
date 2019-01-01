@@ -94,7 +94,9 @@ class AddressStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/addresses', [
             'name' => 'Zak Nesler',
             'address_1' => '123 Sunnyside Lane',
+            'address_2' => 'Some other data',
             'city' => 'Fakeville',
+            'state_province' => 'Test State',
             'postal_code' => '12345',
             'country_id' => $country->id,
         ]);
@@ -103,7 +105,9 @@ class AddressStoreTest extends TestCase
             'user_id' => 1,
             'name' => 'Zak Nesler',
             'address_1' => '123 Sunnyside Lane',
+            'address_2' => 'Some other data',
             'city' => 'Fakeville',
+            'state_province' => 'Test State',
             'postal_code' => '12345',
             'country_id' => 1,
         ]);
@@ -121,7 +125,9 @@ class AddressStoreTest extends TestCase
         $response = $this->jsonAs($user, 'POST', '/api/addresses', [
             'name' => 'Zak Nesler',
             'address_1' => '123 Sunnyside Lane',
+            'address_2' => 'Some other data',
             'city' => 'Fakeville',
+            'state_province' => 'Test State',
             'postal_code' => '12345',
             'country_id' => $country->id,
         ]);

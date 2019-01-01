@@ -20,7 +20,9 @@ class CreateAddressesTable extends Migration
             $table->boolean('default')->default(false);
             $table->string('name');
             $table->string('address_1');
+            $table->string('address_2')->nullable();
             $table->string('city');
+            $table->string('state_province')->nullable();
             $table->string('postal_code');
             $table->timestamps();
 

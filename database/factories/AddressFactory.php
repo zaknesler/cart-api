@@ -9,7 +9,9 @@ $factory->define(Address::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'address_1' => $faker->streetAddress,
+        'address_2' => $faker->secondaryAddress,
         'city' => $faker->city,
+        'state_province' => $faker->state,
         'postal_code' => $faker->postcode,
         'user_id' => function () {
             return factory(User::class)->create()->id;

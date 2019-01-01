@@ -26,7 +26,9 @@ class AddressStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'address_1' => 'required',
+            'address_2' => 'nullable',
             'city' => 'required',
+            'state_province' => 'nullable',
             'postal_code' => 'required',
             'country_id' => 'required|exists:countries,id',
             'default' => 'boolean',
