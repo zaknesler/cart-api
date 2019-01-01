@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listners\Orders;
+namespace App\Listeners\Orders;
 
 use App\Cart\Cart;
 use App\Events\Orders\OrderCreated;
