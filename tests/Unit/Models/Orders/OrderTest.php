@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Orders;
 
+use App\Cart\Money;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
@@ -82,5 +83,36 @@ class OrderTest extends TestCase
         );
 
         $this->assertEquals(3, $order->products->first()->pivot->quantity);
+    }
+
+    /** @test */
+    function a_money_instance_is_returned_for_the_order_subtotal()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertInstanceOf(Money::class, $order->subtotal);
+    }
+
+    /** @test */
+    function a_money_instance_is_returned_for_the_order_total()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertInstanceOf(Money::class, $order->total());
+    }
+
+    /** @test */
+    function the_order_total_adds_shipping_cost_to_subtotal()
+    {
+        $shippingMethod = factory(ShippingMethod::class)->create([
+            'price' => 500,
+        ]);
+
+        $order = factory(Order::class)->create([
+            'subtotal' => 1000,
+            'shipping_method_id' => $shippingMethod->id,
+        ]);
+
+        $this->assertEquals(1500, $order->total()->amount());
     }
 }

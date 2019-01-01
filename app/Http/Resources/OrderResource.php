@@ -20,7 +20,8 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'status' => $this->status,
-            'subtotal' => $this->subtotal,
+            'subtotal' => $this->subtotal->formatted(),
+            'total' => $this->total()->formatted(),
             'created_at' => $this->created_at->toDateTimeString(),
             'products' => ProductVariationResource::collection($this->whenLoaded('products')),
             'address' => new AddressResource($this->whenLoaded('address')),

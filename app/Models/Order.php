@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Cart\Money;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Pivots\OrderProductVariation;
 
@@ -36,6 +37,27 @@ class Order extends Model
         static::creating(function ($order) {
             $order->status = self::PENDING;
         });
+    }
+
+    /**
+     * Get the subtotal attribute as a money instance.
+     *
+     * @param  int  $subtotal
+     * @return \App\Cart\money
+     */
+    public function getSubtotalAttribute($subtotal)
+    {
+        return new Money($subtotal);
+    }
+
+    /**
+     * Get the total of an order, including shipping costs.
+     *
+     * @return \App\Cart\Money
+     */
+    public function total()
+    {
+        return $this->subtotal->add($this->shippingMethod->price);
     }
 
     /**
