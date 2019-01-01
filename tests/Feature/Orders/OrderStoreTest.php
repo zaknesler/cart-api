@@ -29,6 +29,11 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_an_address()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders');
 
@@ -39,6 +44,11 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_an_address_that_exists()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -51,6 +61,12 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_an_address_that_belongs_to_the_authenticated_user()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
+
         $address = factory(Address::class)->create([
             'user_id' => factory(User::class)->create()->id,
         ]);
@@ -66,6 +82,11 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_a_shipping_method()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders');
 
@@ -76,6 +97,11 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_a_shipping_method_that_exists()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'shipping_method_id' => 1,
@@ -88,6 +114,12 @@ class OrderStoreTest extends TestCase
     function storing_an_order_requires_a_shipping_method_valid_for_the_given_address()
     {
         $user = factory(User::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
+
+        $user->cart()->attach($product, [
+            'quantity' => 1,
+        ]);
+
         $shippingMethod = factory(ShippingMethod::class)->create();
         $address = factory(Address::class)->create(['user_id' => 1]);
 

@@ -34,7 +34,7 @@ class CartDestroyTest extends TestCase
     function a_product_in_the_cart_can_be_removed()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
 
         $user->cart()->attach($product, [
             'quantity' => 1,

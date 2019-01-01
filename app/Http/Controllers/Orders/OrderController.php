@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware(['auth:api', 'cart.sync', 'cart.checkIsEmpty']);
     }
 
     /**
@@ -29,11 +29,8 @@ class OrderController extends Controller
      */
     public function store(OrderStoreRequest $request, Cart $cart)
     {
-        if ($cart->isEmpty()) {
-            abort(400, 'Your cart is empty.');
-        }
-
         $order = $this->createOrder($request, $cart);
+
         $order->products()->sync($cart->products()->forSyncing());
 
         event(new OrderCreated($order));

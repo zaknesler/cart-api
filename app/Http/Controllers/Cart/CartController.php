@@ -18,7 +18,7 @@ class CartController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware(['auth:api', 'cart.sync']);
     }
 
     /**
@@ -30,8 +30,6 @@ class CartController extends Controller
      */
     public function index(CartIndexRequest $request, Cart $cart)
     {
-        $cart->sync();
-
         $request->user()->load([
             'cart.product',
             'cart.product.variations.stock',

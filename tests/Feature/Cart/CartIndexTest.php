@@ -27,7 +27,7 @@ class CartIndexTest extends TestCase
     function products_can_be_indexed()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
 
         $user->cart()->attach($product);
 
@@ -87,15 +87,14 @@ class CartIndexTest extends TestCase
     function cart_index_syncs_product_quantities()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create(['price' => 1000]);
 
-        $user->cart()->attach($product);
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create()
+        );
 
         $response = $this->jsonAs($user, 'GET', '/api/cart');
 
-        $response->assertJsonFragment([
-            'changed' => true,
-        ]);
+        $response->assertStatus(409);
     }
 
     /** @test */

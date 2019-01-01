@@ -145,15 +145,37 @@ class CartTest extends TestCase
             $user = factory(User::class)->create()
         );
 
-        $user->cart()->attach(
-            $product = factory(ProductVariation::class)->create(), [
-                'quantity' => 2,
-            ]
-        );
+        $productA = factory(ProductVariation::class)->create();
+        $productB = factory(ProductVariation::class)->create();
+
+        $user->cart()->attach([
+            1 => ['quantity' => 1],
+            2 => ['quantity' => 1],
+        ]);
 
         $cart->sync();
 
         $this->assertEquals(0, $user->fresh()->cart->first()->pivot->quantity);
+        $this->assertEquals(0, $user->fresh()->cart->get(1)->pivot->quantity);
+    }
+
+    /** @test */
+    function cart_can_show_whether_or_not_it_has_changed()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $productA = factory(ProductVariation::class)->create();
+        $productB = factory(ProductVariation::class)->create();
+
+        $user->cart()->attach([
+            1 => ['quantity' => 2],
+            2 => ['quantity' => 0],
+        ]);
+
+        $cart->sync();
+
         $this->assertTrue($cart->hasChanged());
     }
 

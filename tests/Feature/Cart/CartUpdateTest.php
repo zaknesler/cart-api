@@ -34,7 +34,7 @@ class CartUpdateTest extends TestCase
     function a_quantity_is_required_to_update_a_product_in_the_cart()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
 
         $response = $this->jsonAs($user, 'PATCH', '/api/cart/1');
 
@@ -45,7 +45,7 @@ class CartUpdateTest extends TestCase
     function a_quantity_of_one_or_more_is_required_to_update_a_product_in_the_cart()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
 
         $response = $this->jsonAs($user, 'PATCH', '/api/cart/1', [
             'quantity' => 0,
@@ -58,7 +58,7 @@ class CartUpdateTest extends TestCase
     function a_product_in_the_cart_can_be_updated()
     {
         $user = factory(User::class)->create();
-        $product = factory(ProductVariation::class)->create();
+        $product = factory(ProductVariation::class)->states('stocked')->create();
 
         $user->cart()->attach($product, [
             'quantity' => 1,
