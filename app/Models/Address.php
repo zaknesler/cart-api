@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CanBeDefault;
 use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
+    use CanBeDefault;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,34 +31,6 @@ class Address extends Model
     protected $casts = [
         'default' => 'boolean',
     ];
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($address) {
-            if ($address->default) {
-                $address->user->addresses()->update([
-                    'default' => false,
-                ]);
-            }
-        });
-    }
-
-    /**
-     * Set the value of the default attribute
-     *
-     * @param string|bool  $value
-     */
-    public function setDefaultAttribute($value)
-    {
-        $this->attributes['default'] = (($value === 'true' || $value) ? true : false);
-    }
 
     /**
      * An address belongs to a user.
