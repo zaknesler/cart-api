@@ -2,7 +2,7 @@
 
 <img src="https://travis-ci.com/zaknesler/cart-api.svg?token=Q3xfxX8b5n9HsoYBpqri&branch=master" alt="Travis CI" />
 
-A Laravel shopping site, built using the awesome Codecourse [e-commerce series](https://codecourse.com/watch/build-an-e-commerce-platform).
+A Laravel e-commerse site built using the awesome Codecourse [series](https://codecourse.com/watch/build-an-e-commerce-platform).
 
 ### Installation
 
@@ -32,7 +32,7 @@ Lastly, configure the Stripe [API keys](https://dashboard.stripe.com/account/api
 
 ### Testing
 
-Run the phpunit binary to run the tests
+Use the phpunit binary to run the tests
 
 ```bash
 ./vendor/bin/phpunit
