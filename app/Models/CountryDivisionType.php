@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductVariationType extends Model
+class CountryDivisionType extends Model
 {
     /**
      * Indicates if the model should be timestamped.

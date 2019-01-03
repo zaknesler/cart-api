@@ -20,9 +20,9 @@ class Address extends Model
         'address_1',
         'address_2',
         'city',
-        'state_province',
         'postal_code',
         'country_id',
+        'country_division_id',
     ];
 
     /**
@@ -45,12 +45,22 @@ class Address extends Model
     }
 
     /**
-     * An address has a country.
+     * An address belongs to a country.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
     {
-        return $this->HasOne(Country::class, 'id', 'country_id');
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * An address belongs to a country division.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function countryDivision()
+    {
+        return $this->belongsTo(CountryDivision::class);
     }
 }

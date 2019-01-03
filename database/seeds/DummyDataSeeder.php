@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ShippingMethod;
+use App\Models\CountryDivision;
 use Illuminate\Database\Seeder;
 use App\Models\ProductVariation;
 use App\Models\ProductVariationType;
@@ -41,6 +42,7 @@ class DummyDataSeeder extends Seeder
             'city' => 'Fakeville',
             'postal_code' => '12345',
             'country_id' => Country::where('code', 'US')->first()->id,
+            'country_division_id' => CountryDivision::where('code', 'PA')->first()->id,
         ]);
 
         $user->addresses()->create([
@@ -50,6 +52,7 @@ class DummyDataSeeder extends Seeder
             'city' => 'Unrealestate',
             'postal_code' => '90210',
             'country_id' => Country::where('code', 'US')->first()->id,
+            'country_division_id' => CountryDivision::where('code', 'PA')->first()->id,
         ]);
 
         $user->paymentMethods()->create([

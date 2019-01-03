@@ -17,17 +17,18 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->integer('country_id')->unsigned()->index();
+            $table->integer('country_division_id')->unsigned()->index()->nullable();
             $table->boolean('default')->default(false);
             $table->string('name');
             $table->string('address_1');
             $table->string('address_2')->nullable();
             $table->string('city');
-            $table->string('state_province')->nullable();
             $table->string('postal_code');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('country_id')->references('id')->on('countries');
+            $table->foreign('country_division_id')->references('id')->on('country_divisions');
         });
     }
 

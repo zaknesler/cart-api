@@ -5,6 +5,7 @@ namespace Tests\Feature\Addresses;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\CountryDivision;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -83,6 +84,18 @@ class AddressStoreTest extends TestCase
     }
 
     /** @test */
+    function storing_an_address_with_a_country_division_requires_a_country_division_that_exists()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->jsonAs($user, 'POST', '/api/addresses', [
+            'country_division_id' => 1,
+        ]);
+
+        $response->assertJsonValidationErrors('country_division_id');
+    }
+
+    /** @test */
     function a_user_can_store_an_address()
     {
         $user = factory(User::class)->create();
@@ -90,15 +103,20 @@ class AddressStoreTest extends TestCase
             'code' => 'FK',
             'name' => 'Fake Country',
         ]);
+        $countryDivision = factory(CountryDivision::class)->create([
+            'country_id' => 1,
+            'name' => 'Fake Country Division',
+            'code' => 'FK',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/addresses', [
             'name' => 'Zak Nesler',
             'address_1' => '123 Sunnyside Lane',
             'address_2' => 'Some other data',
             'city' => 'Fakeville',
-            'state_province' => 'Test State',
             'postal_code' => '12345',
-            'country_id' => $country->id,
+            'country_id' => 1,
+            'country_division_id' => 1,
         ]);
 
         $this->assertDatabaseHas('addresses', [
@@ -107,9 +125,9 @@ class AddressStoreTest extends TestCase
             'address_1' => '123 Sunnyside Lane',
             'address_2' => 'Some other data',
             'city' => 'Fakeville',
-            'state_province' => 'Test State',
             'postal_code' => '12345',
             'country_id' => 1,
+            'country_division_id' => 1,
         ]);
     }
 
@@ -121,20 +139,24 @@ class AddressStoreTest extends TestCase
             'code' => 'FK',
             'name' => 'Fake Country',
         ]);
+        $countryDivision = factory(CountryDivision::class)->create([
+            'country_id' => 1,
+            'name' => 'Fake Country Division',
+            'code' => 'FK',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/addresses', [
             'name' => 'Zak Nesler',
             'address_1' => '123 Sunnyside Lane',
             'address_2' => 'Some other data',
             'city' => 'Fakeville',
-            'state_province' => 'Test State',
             'postal_code' => '12345',
-            'country_id' => $country->id,
+            'country_id' => 1,
+            'country_division_id' => 1,
         ]);
 
         $response->assertJsonFragment([
             'id' => 1,
-            'name' => 'Zak Nesler',
         ]);
     }
 }

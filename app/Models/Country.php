@@ -25,6 +25,16 @@ class Country extends Model
     ];
 
     /**
+     * Determine whether a country has divisions.
+     *
+     * @return bool
+     */
+    public function hasDivisions()
+    {
+        return $this->divisions->count() > 0;
+    }
+
+    /**
      * A country belongs to many shipping methods.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -33,5 +43,15 @@ class Country extends Model
     {
         return $this->belongsToMany(ShippingMethod::class, 'country_shipping_method')
                     ->using(CountryShippingMethod::class);
+    }
+
+    /**
+     * A country has many divisions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function divisions()
+    {
+        return $this->hasMany(CountryDivision::class);
     }
 }
