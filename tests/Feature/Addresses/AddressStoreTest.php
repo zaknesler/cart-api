@@ -187,4 +187,34 @@ class AddressStoreTest extends TestCase
             'id' => 1,
         ]);
     }
+
+    /** @test */
+    function an_address_can_be_stored_without_a_country_division()
+    {
+        $user = factory(User::class)->create();
+        $country = factory(Country::class)->create([
+            'code' => 'FK',
+            'name' => 'Fake Country',
+        ]);
+
+        $response = $this->jsonAs($user, 'POST', '/api/addresses', [
+            'name' => 'Zak Nesler',
+            'address_1' => '123 Sunnyside Lane',
+            'address_2' => 'Some other data',
+            'city' => 'Fakeville',
+            'postal_code' => '12345',
+            'country_id' => 1,
+        ]);
+
+        $this->assertDatabaseHas('addresses', [
+            'user_id' => 1,
+            'name' => 'Zak Nesler',
+            'address_1' => '123 Sunnyside Lane',
+            'address_2' => 'Some other data',
+            'city' => 'Fakeville',
+            'postal_code' => '12345',
+            'country_id' => 1,
+            'country_division_id' => null,
+        ]);
+    }
 }
