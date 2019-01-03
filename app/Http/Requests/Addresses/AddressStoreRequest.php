@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Addresses;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Addresses\ValidCountryDivision;
 
 class AddressStoreRequest extends FormRequest
 {
@@ -30,7 +31,11 @@ class AddressStoreRequest extends FormRequest
             'city' => 'required',
             'postal_code' => 'required',
             'country_id' => 'required|exists:countries,id',
-            'country_division_id' => 'nullable|exists:country_divisions,id',
+            'country_division_id' => [
+                'nullable',
+                'exists:country_divisions,id',
+                new ValidCountryDivision($this->country_id),
+            ],
             'default' => 'boolean',
         ];
     }

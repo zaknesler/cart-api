@@ -84,11 +84,39 @@ class AddressStoreTest extends TestCase
     }
 
     /** @test */
-    function storing_an_address_with_a_country_division_requires_a_country_division_that_exists()
+    function using_a_country_division_requires_one_that_exists()
     {
         $user = factory(User::class)->create();
 
         $response = $this->jsonAs($user, 'POST', '/api/addresses', [
+            'country_division_id' => 1,
+        ]);
+
+        $response->assertJsonValidationErrors('country_division_id');
+    }
+
+    /** @test */
+    function country_division_must_belong_to_the_country_that_exists()
+    {
+        $user = factory(User::class)->create();
+        $countryDivision = factory(CountryDivision::class)->create();
+
+        $response = $this->jsonAs($user, 'POST', '/api/addresses', [
+            'country_division_id' => 1,
+        ]);
+
+        $response->assertJsonValidationErrors('country_division_id');
+    }
+
+    /** @test */
+    function country_division_must_belong_to_the_country_specified()
+    {
+        $user = factory(User::class)->create();
+        $country = factory(Country::class)->create();
+        $countryDivision = factory(CountryDivision::class)->create();
+
+        $response = $this->jsonAs($user, 'POST', '/api/addresses', [
+            'country_division_id' => $country->id,
             'country_division_id' => 1,
         ]);
 
