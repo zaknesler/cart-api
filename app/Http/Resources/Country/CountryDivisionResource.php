@@ -20,7 +20,7 @@ class CountryDivisionResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'type' => $this->whenLoaded('type', function () {
-                return $this->type->pluck('name')->first();
+                return $this->type->name;
             }),
         ];
     }
