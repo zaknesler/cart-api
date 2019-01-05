@@ -206,15 +206,8 @@ class AddressStoreTest extends TestCase
             'country_id' => 1,
         ]);
 
-        $this->assertDatabaseHas('addresses', [
-            'user_id' => 1,
-            'name' => 'Zak Nesler',
-            'address_1' => '123 Sunnyside Lane',
-            'address_2' => 'Some other data',
-            'city' => 'Fakeville',
-            'postal_code' => '12345',
-            'country_id' => 1,
-            'country_division_id' => null,
+        $this->assertDatabaseMissing('addresses', [
+            'country_division_id' => 1,
         ]);
     }
 }

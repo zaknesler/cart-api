@@ -10,7 +10,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     /**
-     * Call the given URI via a JWT-authenticated user.
+     * Call the given URI as a JWT-authenticated user.
      *
      * @param  \Tymon\JWTAuth\Contracts\JWTSubject  $user
      * @param  string  $method
