@@ -104,9 +104,15 @@ class DummyDataSeeder extends Seeder
 
     private function coffee()
     {
-        $category = factory(Category::class)->create([
+        $categoryParent = factory(Category::class)->create([
             'name' => 'Food',
             'slug' => 'food',
+        ]);
+
+        $category = factory(Category::class)->create([
+            'name' => 'Coffee',
+            'slug' => 'coffee',
+            'parent_id' => $categoryParent->id,
         ]);
 
         $category->products()->save(
@@ -174,9 +180,15 @@ class DummyDataSeeder extends Seeder
 
     private function shirt()
     {
-        $category = factory(Category::class)->create([
+        $categoryParent = factory(Category::class)->create([
             'name' => 'Clothing',
             'slug' => 'clothing',
+        ]);
+
+        $category = factory(Category::class)->create([
+            'name' => 'T-Shirts',
+            'slug' => 'tshirts',
+            'parent_id' => $categoryParent->id,
         ]);
 
         $category->products()->save(
