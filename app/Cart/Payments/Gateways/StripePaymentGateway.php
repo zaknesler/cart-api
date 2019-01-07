@@ -36,7 +36,7 @@ class StripePaymentGateway implements PaymentGateway
     public function createCustomer()
     {
         if ($this->user->gateway_customer_id) {
-            return $this->getCustomerFromCurrentUser();
+            return $this->getCustomer();
         }
 
         $customer = new StripeGatewayCustomer(
@@ -56,13 +56,26 @@ class StripePaymentGateway implements PaymentGateway
      *
      * @return \App\Models\User
      */
-    public function user()
+    public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * Create a customer via Stripe.
+     * Fetch a customer from the provider based on the current user.
+     *
+     * @return \App\Cart\Payments\GatewayCustomer
+     */
+    public function getCustomer()
+    {
+        return new StripeGatewayCustomer(
+            $this,
+            StripeCustomer::retrieve($this->user->gateway_customer_id)
+        );
+    }
+
+    /**
+     * Create a customer on the provider's end.
      *
      * @return \Stripe\Customer
      */
@@ -71,18 +84,5 @@ class StripePaymentGateway implements PaymentGateway
         return StripeCustomer::create([
             'email' => $this->user->email,
         ]);
-    }
-
-    /**
-     * Fetch a customer from Stripe based on the current user.
-     *
-     * @return \App\Cart\Payments\GatewayCustomer
-     */
-    private function getCustomerFromCurrentUser()
-    {
-        return new StripeGatewayCustomer(
-            $this,
-            StripeCustomer::retrieve($this->user->gateway_customer_id)
-        );
     }
 }

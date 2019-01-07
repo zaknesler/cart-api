@@ -26,5 +26,12 @@ interface PaymentGateway
      *
      * @return \App\Models\User
      */
-    public function user();
+    public function getUser();
+
+    /**
+     * Fetch a customer from the provider based on the current user.
+     *
+     * @return \App\Cart\Payments\GatewayCustomer
+     */
+    public function getCustomer();
 }

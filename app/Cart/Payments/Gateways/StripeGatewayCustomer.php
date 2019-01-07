@@ -3,6 +3,7 @@
 namespace App\Cart\Payments\Gateways;
 
 use App\Models\PaymentMethod;
+use Stripe\Charge as StripeCharge;
 use App\Cart\Payments\PaymentGateway;
 use App\Cart\Payments\GatewayCustomer;
 use Stripe\Customer as StripeCustomer;
@@ -46,7 +47,12 @@ class StripeGatewayCustomer implements GatewayCustomer
      */
     public function charge(PaymentMethod $paymentMethod, $amount)
     {
-        //
+        StripeCharge::create([
+            'currency' => strtolower(config('billing.currency')),
+            'amount' => $amount,
+            'customer' => $this->customer->id,
+            'source' => $paymentMethod->provider_id,
+        ]);
     }
 
     /**
@@ -64,7 +70,7 @@ class StripeGatewayCustomer implements GatewayCustomer
         $this->customer->default_source = $card->id;
         $this->customer->save();
 
-        return $this->gateway->user()->paymentMethods()->create([
+        return $this->gateway->getUser()->paymentMethods()->create([
             'provider_id' => $card->id,
             'card_type' => $card->brand,
             'last_four' => $card->last4,

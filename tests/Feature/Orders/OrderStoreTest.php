@@ -192,13 +192,16 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
         $user->cart()->sync(
             factory(ProductVariation::class)->state('stocked')->create()
         );
+
+        $this->jsonAs($user, 'POST', '/api/payment-methods', [
+            'token' => 'tok_visa',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -220,13 +223,16 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
         $user->cart()->sync(
             $product = factory(ProductVariation::class)->state('stocked')->create()
         );
+
+        $this->jsonAs($user, 'POST', '/api/payment-methods', [
+            'token' => 'tok_visa',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -247,13 +253,16 @@ class OrderStoreTest extends TestCase
 
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
         $user->cart()->sync(
             $product = factory(ProductVariation::class)->state('stocked')->create()
         );
+
+        $this->jsonAs($user, 'POST', '/api/payment-methods', [
+            'token' => 'tok_visa',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -271,13 +280,16 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $paymentMethod = factory(PaymentMethod::class)->create(['user_id' => 1]);
         $address = factory(Address::class)->create(['user_id' => 1]);
         $shippingMethod->countries()->attach($address->country);
 
         $user->cart()->sync(
             $product = factory(ProductVariation::class)->state('stocked')->create()
         );
+
+        $this->jsonAs($user, 'POST', '/api/payment-methods', [
+            'token' => 'tok_visa',
+        ]);
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,

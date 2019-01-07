@@ -24,7 +24,7 @@ class Money
      */
     public function __construct($value)
     {
-        $this->money = new BaseMoney($value, new Currency('USD'));
+        $this->money = new BaseMoney($value, new Currency(config('billing.currency')));
     }
 
     /**
@@ -35,7 +35,7 @@ class Money
     public function formatted()
     {
         $formatter = new IntlMoneyFormatter(
-            new NumberFormatter('en_US', NumberFormatter::CURRENCY),
+            new NumberFormatter(config('billing.number_format'), NumberFormatter::CURRENCY),
             new ISOCurrencies()
         );
 
