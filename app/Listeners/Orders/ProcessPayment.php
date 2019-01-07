@@ -39,7 +39,7 @@ class ProcessPayment
         try {
             $this->paymentGateway
                 ->withUser($event->order->user)
-                ->createCustomer()
+                ->getCustomer()
                 ->charge(
                     $event->order->paymentMethod,
                     $event->order->total()->amount()
