@@ -19,7 +19,7 @@ cd cart-api
 composer install
 cp .env.example .env
 php artisan key:generate
-php artisan jwt:secret
+php artisan jwt:secret --force
 ```
 
 Then set up and migrate the database with seeds (SQLite does not work with this codebase)
