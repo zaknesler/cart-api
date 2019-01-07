@@ -12,6 +12,6 @@ $factory->define(PaymentMethod::class, function (Faker $faker) {
         'card_type' => 'Visa',
         'last_four' => '4242',
         'default' => true,
-        'provider_id' => str_random(32),
+        'provider_id' => 'tok_fake_' . str_random(3),
     ];
 });
