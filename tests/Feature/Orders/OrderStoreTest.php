@@ -190,18 +190,7 @@ class OrderStoreTest extends TestCase
     /** @test */
     function a_user_can_create_an_order()
     {
-        $user = factory(User::class)->create();
-        $shippingMethod = factory(ShippingMethod::class)->create();
-        $address = factory(Address::class)->create(['user_id' => 1]);
-        $shippingMethod->countries()->attach($address->country);
-
-        $user->cart()->sync(
-            factory(ProductVariation::class)->state('stocked')->create()
-        );
-
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
+        $user = $this->orderDependencies();
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -210,36 +199,13 @@ class OrderStoreTest extends TestCase
         ]);
 
         $response->assertSuccessful();
+        $this->assertTrue($user->cart->isEmpty());
         $this->assertDatabaseHas('orders', [
             'user_id' => 1,
             'address_id' => 1,
             'shipping_method_id' => 1,
             'payment_method_id' => 1,
         ]);
-    }
-
-    /** @test */
-    function products_are_attached_to_the_created_order()
-    {
-        $user = factory(User::class)->create();
-        $shippingMethod = factory(ShippingMethod::class)->create();
-        $address = factory(Address::class)->create(['user_id' => 1]);
-        $shippingMethod->countries()->attach($address->country);
-
-        $user->cart()->sync(
-            $product = factory(ProductVariation::class)->state('stocked')->create()
-        );
-
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
-
-        $response = $this->jsonAs($user, 'POST', '/api/orders', [
-            'address_id' => 1,
-            'shipping_method_id' => 1,
-            'payment_method_id' => 1,
-        ]);
-
         $this->assertDatabaseHas('order_product_variation', [
             'product_variation_id' => 1,
             'order_id' => 1,
@@ -251,18 +217,7 @@ class OrderStoreTest extends TestCase
     {
         Event::fake();
 
-        $user = factory(User::class)->create();
-        $shippingMethod = factory(ShippingMethod::class)->create();
-        $address = factory(Address::class)->create(['user_id' => 1]);
-        $shippingMethod->countries()->attach($address->country);
-
-        $user->cart()->sync(
-            $product = factory(ProductVariation::class)->state('stocked')->create()
-        );
-
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
+        $user = $this->orderDependencies();
 
         $response = $this->jsonAs($user, 'POST', '/api/orders', [
             'address_id' => 1,
@@ -275,12 +230,17 @@ class OrderStoreTest extends TestCase
         });
     }
 
-    /** @test */
-    function after_an_order_is_stored_the_users_cart_is_emptied()
+    /**
+     * Set up the situation required for creating an order successfully.
+     *
+     * @param  \App\Models\User|null  $user
+     * @return \App\Models\User
+     */
+    private function orderDependencies($user = null)
     {
-        $user = factory(User::class)->create();
+        $user = $user ?? factory(User::class)->create();
         $shippingMethod = factory(ShippingMethod::class)->create();
-        $address = factory(Address::class)->create(['user_id' => 1]);
+        $address = factory(Address::class)->create(['user_id' => $user->id]);
         $shippingMethod->countries()->attach($address->country);
 
         $user->cart()->sync(
@@ -291,12 +251,6 @@ class OrderStoreTest extends TestCase
             'token' => 'tok_visa',
         ]);
 
-        $response = $this->jsonAs($user, 'POST', '/api/orders', [
-            'address_id' => 1,
-            'shipping_method_id' => 1,
-            'payment_method_id' => 1,
-        ]);
-
-        $this->assertTrue($user->cart->isEmpty());
+        return $user;
     }
 }

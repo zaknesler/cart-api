@@ -2,12 +2,13 @@
 
 namespace App\Listeners\Orders;
 
+use App\Events\Orders\OrderPaid;
 use App\Events\Orders\OrderCreated;
 use App\Cart\Payments\PaymentGateway;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\Orders\OrderPaymentFailed;
+use App\Exceptions\Payments\PaymentFailedException;
 
-class ProcessPayment implements ShouldQueue
+class ProcessPayment
 {
     /**
      * The payment gateway implementation.
@@ -35,12 +36,18 @@ class ProcessPayment implements ShouldQueue
      */
     public function handle(OrderCreated $event)
     {
-        $this->paymentGateway
-            ->withUser($event->order->user)
-            ->createCustomer()
-            ->charge(
-                $event->order->paymentMethod,
-                $event->order->total()->amount()
-            );
+        try {
+            $this->paymentGateway
+                ->withUser($event->order->user)
+                ->createCustomer()
+                ->charge(
+                    $event->order->paymentMethod,
+                    $event->order->total()->amount()
+                );
+
+            event(new OrderPaid($event->order));
+        } catch (PaymentFailedException $e) {
+            event(new OrderPaymentFailed($event->order));
+        }
     }
 }

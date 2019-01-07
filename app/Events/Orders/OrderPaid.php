@@ -6,12 +6,12 @@ use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class OrderCreated
+class OrderPaid
 {
     use Dispatchable, SerializesModels;
 
     /**
-     * The order that was created.
+     * The order that was paid.
      *
      * @var \App\Models\Order
      */

@@ -29,6 +29,9 @@ class ProductVariationResource extends JsonResource
             'in_stock' => $this->inStock(),
             'stock_count' => $this->stockCount(),
             'product' => new ProductIndexResource($this->product),
+            'quantity' => $this->whenLoaded('pivot', function () {
+                return $this->pivot->quantity;
+            }),
         ];
     }
 }

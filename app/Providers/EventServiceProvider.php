@@ -18,6 +18,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Orders\EmptyCart',
         ],
 
+        'App\Events\Orders\OrderPaymentFailed' => [
+            'App\Listeners\Orders\Payments\MarkOrderPaymentFailed',
+        ],
+
+        'App\Events\Orders\OrderPaid' => [
+            'App\Listeners\Orders\Payments\MarkOrderProcessing',
+        ],
+
         'Illuminate\Auth\Events\Registered' => [
             'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
         ],

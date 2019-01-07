@@ -4,8 +4,6 @@ namespace App\Listeners\Orders;
 
 use App\Cart\Cart;
 use App\Events\Orders\OrderCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmptyCart
 {
