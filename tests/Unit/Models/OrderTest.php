@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
+use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use App\Models\ProductVariation;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -44,6 +45,17 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertInstanceOf(ShippingMethod::class, $order->shippingMethod);
+    }
+
+    /** @test */
+    function an_order_belongs_to_a_payment_method()
+    {
+        $shippingMethod = factory(PaymentMethod::class)->create();
+        $order = factory(Order::class)->create([
+            'payment_method_id' => 1,
+        ]);
+
+        $this->assertInstanceOf(PaymentMethod::class, $order->paymentMethod);
     }
 
     /** @test */
