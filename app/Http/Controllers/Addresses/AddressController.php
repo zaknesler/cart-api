@@ -42,6 +42,6 @@ class AddressController extends Controller
             ->addresses()
             ->create($request->validated());
 
-        return new AddressResource($address);
+        return new AddressResource($address->load('countryDivision'));
     }
 }
