@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Listeners\Orders;
+
+use App\Events\Orders\OrderCreated;
+use App\Cart\Payments\PaymentGateway;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class ProcessPayment implements ShouldQueue
+{
+    /**
+     * The payment gateway implementation.
+     *
+     * @var \App\Cart\Payments\PaymentGateway
+     */
+    protected $paymentGateway;
+
+    /**
+     * Create the event listener.
+     *
+     * @param  \App\Cart\Payments\PaymentGateway  $paymentGateway
+     * @return void
+     */
+    public function __construct(PaymentGateway $paymentGateway)
+    {
+        $this->paymentGateway = $paymentGateway;
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  \App\Events\Orders\OrderCreated  $event
+     * @return void
+     */
+    public function handle(OrderCreated $event)
+    {
+        //
+    }
+}
