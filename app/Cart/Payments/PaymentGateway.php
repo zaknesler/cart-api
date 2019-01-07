@@ -20,4 +20,11 @@ interface PaymentGateway
      * @return self
      */
     public function createCustomer();
+
+    /**
+     * Get the user attached to the gateway.
+     *
+     * @return \App\Models\User
+     */
+    public function user();
 }

@@ -10,6 +10,7 @@ before_script:
   - php artisan key:generate --force
   - php artisan jwt:secret --force
   - php artisan migrate --seed --force
+  - echo "STRIPE_KEY=${STRIPE_KEY}\nSTRIPE_SECRET=${STRIPE_SECRET}" >> .env
 
 before_install:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('pass') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
@@ -33,3 +34,8 @@ addons:
 
 notifications:
   email: false
+
+env:
+  global:
+    - secure: "B5U+/efeMeVJTm5Vhx2xWzeWfhfpdKS+lzjqfmREMYXE3gi7q0jRrC9bIGU2cCChwZ9p7eKe93lguId8D8C9Z2bxNZ7ZHhcsgBCzgdC0pkOrUGkC9MJtRNX8osE7i/MHsXp5ZGPDNpQ4Q8Zq9r/P7BXoalwVi15r58ZZjGllIZfjeACBh+fpq5Cki6+68ZRi+Il+Dc4XBv+2Kjo8GiG+FCc2ff626dfjEGATZisinGr5P+NP8Xu0nLvwDk8Lut06cAD2LiC1NOsaopOY/zIih5QzduB+dKd2bufLabb0nFTIvv1UG211khSqrVJB/dq8iieb2LIVTZuPDcS83K2YUKDQmQvZ0JdtEYdC4H/wWZTWlHytI+NY5bUFjv4KwXiAGfTzAwCD22jo2PR8LTJwDbMDMZM2sOtwnuzdKhDKNCfoasyrV0ljjN5Ul1UGE0sCeoJ7cGZawf+bm7n+YyWNDSqMkYic0avi9PF0EPB8ZSZCpvs8dCIfZCd5P8GwLfn4B1qbvHwM+spGG95lWrln6gKa4ZJLrQa8D0Yw1WZE9ecwwPWEeVVpj1RAJA48O0pUAOzveauL+9NJk5NUzqZEkEvH+RZ1QgGTVz/khd23dis2+e4GQrgKCCV6seJx/hf2pLm1tSjDa5WWSw2OFyDLRt+b+0/13GVo6YhSyw46/xE="
+    - secure: "gs+qNsSxSfexBf5Qcmmb5JXd+8gErSF4FMeW6C08joevfRHFIUwm527MGQY1ILy2I9ayxxnrQpX32Hi7nipq0vy1S5WWaI0o2yF+nFcthBbJAtflPnjSkcLkZ1PmzIEg9rkJ0Twb1nJnHgxZIl9Sb+2OfCyvJXLLczGFBh+LgA8I6Kb8KcoJWBCTJGIQCYUFKRaV75FzY6i7VXjoazQWl4+6tlN6gGshl76ucXgeU1f0Tu/CQAlP0R0upyPl9LQ896JwrZS2DRWdj1YnQ9hinn4PX5gEWcwHtdzZwVmG57i9WlRFhu+MlhwrCT4aQKu2Q8hpWNT11eHYVxt2L59sBi3d3GzPEP6VuuXGxIrDOn8+Q9wc/efLkuRvNjJlSXuBEoLAMrBD1cVqoVKDD2Ca51aUQsbK9BTj7PSFajjizRAFh6QvkIQcG5CaUbcU76jScrKgwoDR7hubjgJWabG5qDFOWJ8KBShXMr3mbxABR30a+gaPIaot1yJ4eSxb5V0/146fy9zmIvWIk+n9h/j0pLoeTRnYuUnH4sD5e08cFo1qkajBh+txXCdTiRZt/s1bTeKm3bD2LTZOlUbqEuUMqEBIxX8VGERJUNxXdcj28/RIPVs0aMoOt6fQneOUmbOhGRHw7Ogqdhnx5ZbHA6IbY9z0+R/eyu7ayyes7/dKia4="

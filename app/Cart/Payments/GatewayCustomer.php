@@ -19,7 +19,15 @@ interface GatewayCustomer
     /**
      * Create and attach a card to a customer.
      *
-     * @param string  $token
+     * @param  string  $token
+     * @return \App\Models\PaymentMethod
      */
     public function addCard($token);
+
+    /**
+     * Retrieve the customer's identifier from the provider.
+     *
+     * @return string
+     */
+    public function id();
 }

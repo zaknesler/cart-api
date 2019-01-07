@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Cart\Payments\PaymentGateway;
 use App\Http\Resources\PaymentMethodResource;
+use App\Http\Requests\PaymentMethods\StorePaymentMethodRequest;
 
 class PaymentMethodController extends Controller
 {
@@ -42,13 +43,15 @@ class PaymentMethodController extends Controller
     /**
      * Store a new payment method for the user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PaymentMethods\StorePaymentMethodRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StorePaymentMethodRequest $request)
     {
         $card = $this->paymentGateway->withUser($request->user())
             ->createCustomer()
             ->addCard($request->token);
+
+        return new PaymentMethodResource($card);
     }
 }
