@@ -82,6 +82,16 @@ class Order extends Model
     }
 
     /**
+     * An order has many transactions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
      * An order belongs to a shipping method.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
