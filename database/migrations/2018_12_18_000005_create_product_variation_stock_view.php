@@ -23,8 +23,8 @@ class CreateProductVariationStockView extends Migration
                 product_variations.id AS product_variation_id,
                 COALESCE(SUM(stocks.quantity) - COALESCE(SUM(order_product_variation.quantity), 0), 0) AS stock,
                 CASE WHEN COALESCE(SUM(stocks.quantity) - COALESCE(SUM(order_product_variation.quantity), 0), 0) > 0
-                    THEN TRUE
-                    ELSE FALSE
+                    THEN 1
+                    ELSE 0
                 END in_stock
             FROM product_variations
             LEFT JOIN (
