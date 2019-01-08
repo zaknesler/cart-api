@@ -187,7 +187,10 @@ class OrderStoreTest extends TestCase
         $response->assertStatus(400);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+    */
     function a_user_can_create_an_order()
     {
         $user = $this->orderDependencies();
@@ -212,7 +215,10 @@ class OrderStoreTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+    */
     function order_created_event_is_fired_when_order_is_stored()
     {
         Event::fake();

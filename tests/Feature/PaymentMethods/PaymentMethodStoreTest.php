@@ -41,7 +41,10 @@ class PaymentMethodStoreTest extends TestCase
         $response->assertJsonValidationErrors('token');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+    */
     function a_user_can_store_a_payment_method()
     {
         $user = factory(User::class)->create();
@@ -57,7 +60,10 @@ class PaymentMethodStoreTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+    */
     function storing_a_payment_method_returns_the_created_card()
     {
         $user = factory(User::class)->create();
@@ -73,7 +79,10 @@ class PaymentMethodStoreTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+    */
     function storing_a_payment_method_sets_the_created_card_as_default()
     {
         $user = factory(User::class)->create();
