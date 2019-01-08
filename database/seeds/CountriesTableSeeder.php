@@ -2,7 +2,6 @@
 
 use App\Models\Country;
 use Illuminate\Database\Seeder;
-use App\Models\CountryDivisionType;
 
 class CountriesTableSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class CountriesTableSeeder extends Seeder
 
     private function countries()
     {
-        Country::insert([
+        $countries = collect([
             ['name' => 'Afghanistan', 'code' => 'AF'],
             ['name' => 'Åland Islands', 'code' => 'AX'],
             ['name' => 'Albania', 'code' => 'AL'],
@@ -264,7 +263,7 @@ class CountriesTableSeeder extends Seeder
             ['name' => 'United Arab Emirates', 'code' => 'AE'],
             ['name' => 'United Kingdom', 'code' => 'GB'],
             ['name' => 'United Nations', 'code' => 'UN'],
-            ['name' => 'United States', 'code' => 'US'],
+            ['name' => 'United States', 'code' => 'US', 'has_divisions' => true, 'division_type' => 'State'],
             ['name' => 'Uruguay', 'code' => 'UY'],
             ['name' => 'Uzbekistan', 'code' => 'UZ'],
             ['name' => 'Vanuatu', 'code' => 'VU'],
@@ -277,16 +276,23 @@ class CountriesTableSeeder extends Seeder
             ['name' => 'Zambia', 'code' => 'ZM'],
             ['name' => 'Zimbabwe', 'code' => 'ZW'],
         ]);
+
+        $countries->each(function ($country) {
+            Country::create([
+                'name' => $country['name'],
+                'code' => $country['code'],
+                'has_divisions' => $country['has_divisions'] ?? false,
+                'division_type' => $country['division_type'] ?? null,
+            ]);
+        });
     }
 
     private function divisionsUS()
     {
-        $type = CountryDivisionType::create(['name' => 'State']);
-
         Country::where('code', 'US')
             ->first()
             ->divisions()
-            ->createMany(collect([
+            ->createMany([
                 ['code' => 'AL', 'name' => 'Alabama'],
                 ['code' => 'AK', 'name' => 'Alaska'],
                 ['code' => 'AZ', 'name' => 'Arizona'],
@@ -338,11 +344,6 @@ class CountriesTableSeeder extends Seeder
                 ['code' => 'WV', 'name' => 'West Virginia'],
                 ['code' => 'WI', 'name' => 'Wisconsin'],
                 ['code' => 'WY', 'name' => 'Wyoming'],
-            ])
-            ->map(function ($item) use ($type) {
-                $item['country_division_type_id'] = $type->id;
-
-                return $item;
-            })->toArray());
+            ]);
     }
 }

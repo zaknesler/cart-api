@@ -17,6 +17,8 @@ class CreateCountriesTable extends Migration
             $table->increments('id');
             $table->string('code', 2);
             $table->string('name');
+            $table->boolean('has_divisions')->default(false);
+            $table->string('division_type')->nullable();
         });
     }
 

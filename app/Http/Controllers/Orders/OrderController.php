@@ -35,7 +35,7 @@ class OrderController extends Controller
                 'products.type',
                 'products.product.variations.stock',
                 'address.country',
-                'address.countryDivision.type',
+                'address.countryDivision',
                 'shippingMethod',
                 'paymentMethod',
             ])->latest()->paginate(10);

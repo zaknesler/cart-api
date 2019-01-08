@@ -17,7 +17,7 @@ class CountryController extends Controller
     public function index()
     {
         return CountryResource::collection(
-            Country::with('divisions.type')->get()
+            Country::with('divisions')->get()
         );
     }
 }

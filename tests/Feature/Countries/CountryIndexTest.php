@@ -5,7 +5,6 @@ namespace Tests\Feature\Countries;
 use Tests\TestCase;
 use App\Models\Country;
 use App\Models\CountryDivision;
-use App\Models\CountryDivisionType;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -36,14 +35,11 @@ class CountryIndexTest extends TestCase
         factory(Country::class)->create([
             'code' => 'FK',
             'name' => 'Fake Country',
-        ]);
-
-        factory(CountryDivisionType::class)->create([
-            'name' => 'Fake Type',
+            'has_divisions' => true,
+            'division_type' => 'Fake Type',
         ]);
 
         factory(CountryDivision::class)->create([
-            'country_division_type_id' => 1,
             'country_id' => 1,
             'code' => 'FD',
             'name' => 'Fake Division Name',
@@ -56,15 +52,12 @@ class CountryIndexTest extends TestCase
             'code' => 'FK',
             'name' => 'Fake Country',
             'has_divisions' => true,
+            'division_type' => 'Fake Type',
             'divisions' => [
-                'type' => 'Fake Type',
-                'data' => [
-                    [
-                        'id' => 1,
-                        'code' => 'FD',
-                        'name' => 'Fake Division Name',
-                        'type' => 'Fake Type',
-                    ]
+                [
+                    'id' => 1,
+                    'code' => 'FD',
+                    'name' => 'Fake Division Name',
                 ],
             ],
         ]);

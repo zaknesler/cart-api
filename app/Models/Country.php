@@ -22,17 +22,18 @@ class Country extends Model
     protected $fillable = [
         'code',
         'name',
+        'has_divsions',
+        'division_type',
     ];
 
     /**
-     * Determine whether a country has divisions.
+     * The attributes that should be cast to native types.
      *
-     * @return bool
+     * @var array
      */
-    public function hasDivisions()
-    {
-        return $this->divisions->count() > 0;
-    }
+    protected $casts = [
+        'has_divisions' => 'boolean',
+    ];
 
     /**
      * A country belongs to many shipping methods.

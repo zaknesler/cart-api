@@ -39,6 +39,8 @@ class OrdersIndexTest extends TestCase
     /** @test */
     function indexing_orders_will_order_by_latest_first()
     {
+        $this->withoutExceptionHandling();
+
         $user = factory(User::class)->create();
 
         $orderA = factory(Order::class)->create([

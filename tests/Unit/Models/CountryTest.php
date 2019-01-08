@@ -36,4 +36,14 @@ class CountryTest extends TestCase
 
         $this->assertInstanceOf(CountryDivision::class, $country->divisions()->first());
     }
+
+    /** @test */
+    function a_country_casts_the_has_divisons_attribute_to_a_boolean()
+    {
+        $country = factory(Country::class)->create([
+            'has_divisions' => true,
+        ]);
+
+        $this->assertEquals('boolean', gettype($country->has_divisions));
+    }
 }

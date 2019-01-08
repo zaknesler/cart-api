@@ -32,14 +32,4 @@ class CountryDivision extends Model
     {
         return $this->belongsTo(Country::class);
     }
-
-    /**
-     * A country division has a type.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function type()
-    {
-        return $this->hasOne(CountryDivisionType::class, 'id', 'country_division_type_id');
-    }
 }
