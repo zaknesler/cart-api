@@ -14,7 +14,7 @@ class CountriesTableSeeder extends Seeder
     {
         $this->countries();
 
-        $this->divisionsUS();
+        $this->divisions();
     }
 
     private function countries()
@@ -59,7 +59,7 @@ class CountriesTableSeeder extends Seeder
             ['name' => 'Burundi', 'code' => 'BI'],
             ['name' => 'Cambodia', 'code' => 'KH'],
             ['name' => 'Cameroon', 'code' => 'CM'],
-            ['name' => 'Canada', 'code' => 'CA'],
+            ['name' => 'Canada', 'code' => 'CA', 'has_divisions' => true, 'division_type' => 'Province'],
             ['name' => 'Canary Islands', 'code' => 'IC'],
             ['name' => 'Cape Verde', 'code' => 'CV'],
             ['name' => 'Caribbean Netherlands', 'code' => 'BQ'],
@@ -287,8 +287,9 @@ class CountriesTableSeeder extends Seeder
         });
     }
 
-    private function divisionsUS()
+    private function divisions()
     {
+        // United States
         Country::where('code', 'US')
             ->first()
             ->divisions()
@@ -344,6 +345,23 @@ class CountriesTableSeeder extends Seeder
                 ['code' => 'WV', 'name' => 'West Virginia'],
                 ['code' => 'WI', 'name' => 'Wisconsin'],
                 ['code' => 'WY', 'name' => 'Wyoming'],
+            ]);
+
+        // Canada
+        Country::where('code', 'CA')
+            ->first()
+            ->divisions()
+            ->createMany([
+                ['code' => 'ON', 'name' => 'Ontario'],
+                ['code' => 'QC', 'name' => 'Quebec'],
+                ['code' => 'NS', 'name' => 'Nova Scotia'],
+                ['code' => 'NB', 'name' => 'New Brunswick'],
+                ['code' => 'MB', 'name' => 'Manitoba'],
+                ['code' => 'BC', 'name' => 'British Columbia'],
+                ['code' => 'PE', 'name' => 'Prince Edward Island'],
+                ['code' => 'SK', 'name' => 'Saskatchewan'],
+                ['code' => 'Ab', 'name' => 'Alberta'],
+                ['code' => 'NL', 'name' => 'Newfoundland and Labrador'],
             ]);
     }
 }

@@ -86,6 +86,21 @@ class DummyDataSeeder extends Seeder
                 'price' => 3000,
             ]),
         ]);
+
+        Country::where('code', 'CA')->first()->shippingMethods()->saveMany([
+            factory(ShippingMethod::class)->create([
+                'name' => 'Canada Post Regular Parcel',
+                'price' => 1000,
+            ]),
+            factory(ShippingMethod::class)->create([
+                'name' => 'Canada Post Xpresspost',
+                'price' => 2000,
+            ]),
+            factory(ShippingMethod::class)->create([
+                'name' => 'Canada Post Priority',
+                'price' => 2500,
+            ]),
+        ]);
     }
 
     private function coffee()
