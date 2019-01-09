@@ -4,6 +4,8 @@ Route::prefix('/auth')->namespace('Auth')->group(function () {
     Route::post('/register', 'RegisterController@store');
     Route::post('/login', 'LoginController@store');
 
+    Route::delete('/logout', 'LogoutController@destroy');
+
     Route::get('/me', 'MeController@view');
 });
 
