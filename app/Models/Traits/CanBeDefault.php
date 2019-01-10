@@ -12,21 +12,23 @@ trait CanBeDefault
     protected static function bootCanBeDefault()
     {
         static::creating(function ($model) {
-            if ($model->default) {
-                $model->newQuery()->where('user_id', $model->user->id)->update([
-                    'default' => false,
-                ]);
-            }
+            $model->revokeDefaultFromOthers();
         });
     }
 
     /**
-     * Set the value of the default attribute
+     * Set the "default" attribute on all other models to false.
      *
-     * @param string|bool  $value
+     * @return void
      */
-    public function setDefaultAttribute($value)
+    private function revokeDefaultFromOthers()
     {
-        $this->attributes['default'] = (($value === 'true' || $value) ? true : false);
+        if (! $this->default) {
+            return;
+        }
+
+        $this->newQuery()
+            ->where('user_id', $this->user->id)
+            ->update(['default' => false]);
     }
 }
