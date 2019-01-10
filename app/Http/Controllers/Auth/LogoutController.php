@@ -23,9 +23,5 @@ class LogoutController extends Controller
     public function destroy()
     {
         auth()->logout();
-
-        return response()->json([
-            'message' => 'You have been signed out.'
-        ]);
     }
 }
