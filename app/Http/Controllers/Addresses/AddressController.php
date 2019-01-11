@@ -10,14 +10,6 @@ use App\Http\Requests\Addresses\AddressStoreRequest;
 class AddressController extends Controller
 {
     /**
-     * Create a new controller instance
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
-    /**
      * Get a list of the user's addresses.
      *
      * @param  \Illuminate\Http\Request  $request

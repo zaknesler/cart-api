@@ -10,14 +10,6 @@ use App\Http\Resources\ShippingMethodResource;
 class AddressShippingController extends Controller
 {
     /**
-     * Create a new controller instance
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
-    /**
      * Display a listing of shipping methods for an address.
      *
      * @param  \App\Models\Address  $address

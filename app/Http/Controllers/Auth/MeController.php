@@ -9,14 +9,6 @@ use App\Http\Resources\PrivateUserResource;
 class MeController extends Controller
 {
     /**
-     * Create a new controller instance
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
-    /**
      * Get the currently authenticated user.
      *
      * @param  \Illuminate\Http\Request  $Request

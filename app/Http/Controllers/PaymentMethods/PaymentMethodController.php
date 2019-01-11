@@ -22,8 +22,6 @@ class PaymentMethodController extends Controller
      */
     public function __construct(PaymentGateway $paymentGateway)
     {
-        $this->middleware('auth:api');
-
         $this->paymentGateway = $paymentGateway;
     }
 
