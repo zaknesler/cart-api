@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Countries;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Filtering\Filters\CountryFilter;
 use App\Http\Resources\Country\CountryResource;
 
 class CountryController extends Controller
@@ -16,8 +17,12 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return CountryResource::collection(
-            Country::with('divisions')->get()
-        );
+        $countries = Country::with('divisions')
+            ->withFilters([
+                'has_shipping_methods' => new CountryFilter(),
+            ])
+            ->get();
+
+        return CountryResource::collection($countries);
     }
 }

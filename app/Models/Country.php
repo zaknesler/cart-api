@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Pivots\CountryShippingMethod;
+use App\Models\Traits\HasFilters;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pivots\CountryShippingMethod;
 
 class Country extends Model
 {
+    use HasFilters;
+
     /**
      * Indicates if the model should be timestamped.
      *

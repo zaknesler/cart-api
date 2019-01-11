@@ -4,6 +4,7 @@ namespace Tests\Feature\Countries;
 
 use Tests\TestCase;
 use App\Models\Country;
+use App\Models\ShippingMethod;
 use App\Models\CountryDivision;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -73,5 +74,20 @@ class CountryIndexTest extends TestCase
         $response->assertJsonFragment([
             'has_divisions' => false,
         ]);
+    }
+
+    /** @test */
+    function countries_can_be_filtered_to_show_only_ones_with_shipping_methods()
+    {
+        $shippingMethod = factory(ShippingMethod::class)->create();
+        $shippingMethod->countries()->attach(
+            factory(Country::class)->create()
+        );
+
+        factory(Country::class)->create();
+
+        $response = $this->json('GET', '/api/countries?has_shipping_methods');
+
+        $response->assertJsonCount(1, 'data');
     }
 }
