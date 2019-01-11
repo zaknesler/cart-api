@@ -47,6 +47,6 @@ class ValidCountryDivision implements Rule
      */
     public function message()
     {
-        return 'The country division does not belong to the specified country.';
+        return 'The country division does not belong to the selected country.';
     }
 }

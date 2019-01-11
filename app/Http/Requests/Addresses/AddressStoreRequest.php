@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Addresses;
 
+use App\Models\Country;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
 use App\Rules\Addresses\ValidCountryDivision;
 
 class AddressStoreRequest extends FormRequest
@@ -24,6 +26,8 @@ class AddressStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $country = Country::find($this->country_id) ?? null;
+
         return [
             'name' => 'required',
             'address_1' => 'required',
@@ -32,8 +36,8 @@ class AddressStoreRequest extends FormRequest
             'postal_code' => 'required',
             'country_id' => 'required|exists:countries,id',
             'country_division_id' => [
-                'nullable',
                 'exists:country_divisions,id',
+                new RequiredIf(optional($country)->has_divisions),
                 new ValidCountryDivision($this->country_id),
             ],
             'default' => 'boolean',
