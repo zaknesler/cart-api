@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Cart\Payments\Gateways;
+namespace App\Cart\Payments\Stripe;
 
 use App\Models\User;
 use App\Cart\Payments\PaymentGateway;

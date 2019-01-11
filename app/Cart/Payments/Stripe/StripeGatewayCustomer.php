@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Cart\Payments\Gateways;
+namespace App\Cart\Payments\Stripe;
 
 use Exception;
 use App\Models\PaymentMethod;
@@ -35,10 +35,8 @@ class StripeGatewayCustomer implements GatewayCustomer
     public function __construct(PaymentGateway $gateway, StripeCustomer $customer)
     {
         $this->gateway = $gateway;
-
         $this->customer = $customer;
     }
-
 
     /**
      * Charge the customer a specific amount using a payment method.

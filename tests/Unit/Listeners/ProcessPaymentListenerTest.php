@@ -13,8 +13,8 @@ use App\Events\Orders\OrderPaymentFailed;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exceptions\Payments\PaymentFailedException;
-use App\Cart\Payments\Gateways\StripePaymentGateway;
-use App\Cart\Payments\Gateways\StripeGatewayCustomer;
+use App\Cart\Payments\Stripe\StripePaymentGateway;
+use App\Cart\Payments\Stripe\StripeGatewayCustomer;
 
 class ProcessPaymentListenerTest extends TestCase
 {

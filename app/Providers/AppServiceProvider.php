@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Cart\Cart;
 use App\Cart\Payments\PaymentGateway;
 use Illuminate\Support\ServiceProvider;
-use App\Cart\Payments\Gateways\StripePaymentGateway;
+use App\Cart\Payments\Stripe\StripePaymentGateway;
 
 class AppServiceProvider extends ServiceProvider
 {
