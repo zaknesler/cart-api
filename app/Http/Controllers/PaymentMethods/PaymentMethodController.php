@@ -46,9 +46,10 @@ class PaymentMethodController extends Controller
      */
     public function store(StorePaymentMethodRequest $request)
     {
-        $card = $this->paymentGateway->withUser($request->user())
-            ->createCustomer()
-            ->addCard($request->token);
+        $card = $this->paymentGateway
+                ->withUser($request->user())
+                ->createCustomer()
+                ->addCard($request->token);
 
         return new PaymentMethodResource($card);
     }
