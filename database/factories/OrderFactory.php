@@ -11,12 +11,8 @@ $factory->define(Order::class, function (Faker $faker) {
     $user = factory(User::class)->create();
 
     return [
-        'address_id' => function () {
-            return factory(Address::class)->create()->id;
-        },
-        'shipping_method_id' => function () {
-            return factory(ShippingMethod::class)->create()->id;
-        },
+        'address_id' => factory(Address::class),
+        'shipping_method_id' => factory(ShippingMethod::class),
         'user_id' => function () use ($user) {
             return $user->id;
         },

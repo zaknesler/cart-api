@@ -6,9 +6,7 @@ use App\Models\CountryDivision;
 
 $factory->define(CountryDivision::class, function (Faker $faker) {
     return [
-        'country_id' => function () {
-            return factory(Country::class)->create()->id;
-        },
+        'country_id' => factory(Country::class),
         'name' => 'Some Division',
         'code' => 'SD',
     ];

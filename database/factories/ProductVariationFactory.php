@@ -7,14 +7,10 @@ use App\Models\ProductVariationType;
 
 $factory->define(ProductVariation::class, function (Faker $faker) {
     return [
-        'product_id' => function () {
-            return factory(Product::class)->create()->id;
-        },
+        'product_id' => factory(Product::class),
         'name' => $faker->sentence(3),
         'price' => $faker->numberBetween(1000, 10000),
-        'product_variation_type_id' => function () {
-            return factory(ProductVariationType::class)->create()->id;
-        },
+        'product_variation_type_id' => factory(ProductVariationType::class),
     ];
 });
 
