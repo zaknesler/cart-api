@@ -14,6 +14,12 @@ trait CanBeDefault
         static::creating(function ($model) {
             $model->revokeDefaultFromOthers();
         });
+
+        static::deleted(function ($model) {
+            $model->update(['default' => false]);
+
+            $model->markAnotherModelAsDefault();
+        });
     }
 
     /**
@@ -30,5 +36,18 @@ trait CanBeDefault
         $this->newQuery()
             ->where('user_id', $this->user->id)
             ->update(['default' => false]);
+    }
+
+    /**
+     * Make the first other model default after deleting a model.
+     *
+     * @return void
+     */
+    private function markAnotherModelAsDefault()
+    {
+        $this->newQuery()
+            ->where('user_id', $this->user->id)
+            ->first()
+            ->update(['default' => true]);
     }
 }

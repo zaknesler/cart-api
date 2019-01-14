@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Addresses;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AddressResource;
@@ -35,5 +36,19 @@ class AddressController extends Controller
             ->create($request->validated());
 
         return new AddressResource($address->load('countryDivision'));
+    }
+
+    /**
+     * Remove a specified address.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Address  $address
+     * @return void
+     */
+    public function destroy(Request $request, Address $address)
+    {
+        $this->authorize('delete', $address);
+
+        $address->delete();
     }
 }
