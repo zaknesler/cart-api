@@ -34,13 +34,9 @@ class RemovePaymentMethodFromProvider
      */
     public function handle(PaymentMethodDeleted $event)
     {
-        try {
-            $this->paymentGateway
-                ->withUser($event->paymentMethod->user)
-                ->getCustomer()
-                ->removeCard($event->paymentMethod);
-        } catch (PaymentMethodRemovalFailedException $e) {
-            //
-        }
+        $this->paymentGateway
+            ->withUser($event->paymentMethod->user)
+            ->getCustomer()
+            ->removeCard($event->paymentMethod);
     }
 }

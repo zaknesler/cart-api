@@ -91,17 +91,9 @@ class StripeGatewayCustomer implements GatewayCustomer
      */
     public function removeCard(PaymentMethod $paymentMethod)
     {
-        try {
-            $card = $this->customer->sources
-                        ->retrieve($paymentMethod->provider_id)
-                        ->delete();
-
-            if (! $card->deleted) {
-                throw new Exception;
-            }
-        } catch (Exception $e) {
-            throw new PaymentMethodRemovalFailedException;
-        }
+        $this->customer->sources
+            ->retrieve($paymentMethod->provider_id)
+            ->delete();
     }
 
     /**
