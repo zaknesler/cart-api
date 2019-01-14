@@ -17,7 +17,7 @@ class StripeGatewayCustomer implements GatewayCustomer
      *
      * @var \App\Cart\Payments\PaymentGateway
      */
-    protected $gateway;
+    protected $paymentGateway;
 
     /**
      * The Stripe customer.
@@ -29,12 +29,12 @@ class StripeGatewayCustomer implements GatewayCustomer
     /**
      * Instantiate a new Stripe gateway customer.
      *
-     * @param \App\Cart\Payments\PaymentGateway  $gateway
+     * @param \App\Cart\Payments\PaymentGateway  $paymentGateway
      * @param \Stripe\Customer  $customer
      */
-    public function __construct(PaymentGateway $gateway, StripeCustomer $customer)
+    public function __construct(PaymentGateway $paymentGateway, StripeCustomer $customer)
     {
-        $this->gateway = $gateway;
+        $this->paymentGateway = $paymentGateway;
         $this->customer = $customer;
     }
 
@@ -45,7 +45,7 @@ class StripeGatewayCustomer implements GatewayCustomer
      * @param  int  $amount
      * @return self
      */
-    public function charge(PaymentMethod $paymentMethod, $amount)
+    public function charge(PaymentMethod $paymentMethod, int $amount)
     {
         try {
             StripeCharge::create([
@@ -65,7 +65,7 @@ class StripeGatewayCustomer implements GatewayCustomer
      * @param  string  $token
      * @return \App\Models\PaymentMethod
      */
-    public function addCard($token)
+    public function addCard(string $token)
     {
         $card = $this->customer->sources->create([
             'source' => $token,
@@ -74,12 +74,29 @@ class StripeGatewayCustomer implements GatewayCustomer
         $this->customer->default_source = $card->id;
         $this->customer->save();
 
-        return $this->gateway->getUser()->paymentMethods()->create([
+        return $this->paymentGateway->getUser()->paymentMethods()->create([
             'provider_id' => $card->id,
             'card_type' => $card->brand,
             'last_four' => $card->last4,
             'default' => true,
         ]);
+    }
+
+    /**
+     * Remove a card from a customer.
+     *
+     * @param  \App\Models\PaymentMethod  $paymentMethod
+     * @return void
+     */
+    public function removeCard(PaymentMethod $paymentMethod)
+    {
+        try {
+            $this->customer->sources
+                ->retrieve($paymentMethod->provider_id)
+                ->delete();
+        } catch (Exception $e) {
+            // Throw new card deletion exception
+        }
     }
 
     /**

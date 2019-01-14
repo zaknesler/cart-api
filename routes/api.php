@@ -48,5 +48,6 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/payment-methods')->namespace('PaymentMethods')->group(function () {
         Route::get('/', 'PaymentMethodController@index');
         Route::post('/', 'PaymentMethodController@store');
+        Route::delete('/{paymentMethod}', 'PaymentMethodController@destroy');
     });
 });
