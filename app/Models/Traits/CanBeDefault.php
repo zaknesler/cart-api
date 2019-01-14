@@ -18,7 +18,7 @@ trait CanBeDefault
         static::deleted(function ($model) {
             $model->update(['default' => false]);
 
-            $model->markAnotherModelAsDefault();
+            $model->markMostRecentModelAsDefault();
         });
     }
 
@@ -39,15 +39,19 @@ trait CanBeDefault
     }
 
     /**
-     * Make the first other model default after deleting a model.
+     * Make the most recent model as default after deleting a model.
      *
      * @return void
      */
-    private function markAnotherModelAsDefault()
+    private function markMostRecentModelAsDefault()
     {
-        $this->newQuery()
+        $model = $this->newQuery()
             ->where('user_id', $this->user->id)
-            ->first()
-            ->update(['default' => true]);
+            ->latest('id')
+            ->first();
+
+        if ($model) {
+            $model->update(['default' => true]);
+        }
     }
 }
