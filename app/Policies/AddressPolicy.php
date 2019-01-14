@@ -11,7 +11,7 @@ class AddressPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine if a user is allowed to see a specified address.
+     * Determine if a user is allowed to see the address.
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Address  $address
