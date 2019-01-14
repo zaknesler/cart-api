@@ -41,11 +41,10 @@ class AddressController extends Controller
     /**
      * Remove a specified address.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Address  $address
      * @return void
      */
-    public function destroy(Request $request, Address $address)
+    public function destroy(Address $address)
     {
         $this->authorize('delete', $address);
 

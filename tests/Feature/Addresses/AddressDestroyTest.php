@@ -21,6 +21,17 @@ class AddressDestroyTest extends TestCase
     }
 
     /** @test */
+    function a_user_must_own_an_address_to_delete_it()
+    {
+        $user = factory(User::class)->create();
+        $address = factory(Address::class)->create();
+
+        $response = $this->jsonAs($user, 'DELETE', '/api/addresses/1');
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
     function a_user_can_soft_delete_an_address()
     {
         $user = factory(User::class)->create();
@@ -37,18 +48,7 @@ class AddressDestroyTest extends TestCase
     }
 
     /** @test */
-    function a_user_must_own_an_address_to_delete_it()
-    {
-        $user = factory(User::class)->create();
-        $address = factory(Address::class)->create();
-
-        $response = $this->jsonAs($user, 'DELETE', '/api/addresses/1');
-
-        $response->assertStatus(403);
-    }
-
-    /** @test */
-    function if_an_address_is_set_as_default_the_first_remaining_address_if_exists_is_set_as_the_new_default()
+    function if_an_address_is_set_as_default_the_the_most_recent_address_is_set_as_the_new_default()
     {
         $user = factory(User::class)->create();
         $addressA = factory(Address::class)->create([
@@ -59,16 +59,25 @@ class AddressDestroyTest extends TestCase
             'user_id' => $user->id,
             'default' => false,
         ]);
+        $addressC = factory(Address::class)->create([
+            'user_id' => $user->id,
+            'default' => false,
+        ]);
 
         $response = $this->jsonAs($user, 'DELETE', "/api/addresses/{$addressA->id}");
 
-        $this->assertDatabaseMissing('addresses', [
+        $this->assertDatabaseHas('addresses', [
             'id' => $addressA->id,
-            'default' => true,
+            'default' => false,
         ]);
 
         $this->assertDatabaseHas('addresses', [
             'id' => $addressB->id,
+            'default' => false,
+        ]);
+
+        $this->assertDatabaseHas('addresses', [
+            'id' => $addressC->id,
             'default' => true,
         ]);
     }
@@ -77,12 +86,12 @@ class AddressDestroyTest extends TestCase
     function a_user_can_delete_a_single_address_without_another_becoming_default()
     {
         $user = factory(User::class)->create();
-        $addressA = factory(Address::class)->create([
+        $address = factory(Address::class)->create([
             'user_id' => $user->id,
             'default' => true,
         ]);
 
-        $response = $this->jsonAs($user, 'DELETE', "/api/addresses/{$addressA->id}");
+        $response = $this->jsonAs($user, 'DELETE', "/api/addresses/1");
 
         $this->assertDatabaseMissing('addresses', [
             'default' => true,
