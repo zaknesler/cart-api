@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\CanBeDefault;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
 {
-    use CanBeDefault;
+    use CanBeDefault, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +33,15 @@ class Address extends Model
      */
     protected $casts = [
         'default' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'deleted_at',
     ];
 
     /**

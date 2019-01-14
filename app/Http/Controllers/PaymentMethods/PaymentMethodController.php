@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\PaymentMethods;
 
 use Illuminate\Http\Request;
+use App\Models\PaymentMethod;
 use App\Http\Controllers\Controller;
 use App\Cart\Payments\PaymentGateway;
 use App\Http\Resources\PaymentMethodResource;
+use App\Events\PaymentMethods\PaymentMethodDeleted;
 use App\Http\Requests\PaymentMethods\StorePaymentMethodRequest;
 
 class PaymentMethodController extends Controller
@@ -52,5 +54,21 @@ class PaymentMethodController extends Controller
                 ->addCard($request->token);
 
         return new PaymentMethodResource($card);
+    }
+
+    /**
+     * Remove a specified payment method.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\PaymentMethod  $paymentMethod
+     * @return void
+     */
+    public function destroy(Request $request, PaymentMethod $paymentMethod)
+    {
+        $this->authorize('delete', $paymentMethod);
+
+        $paymentMethod->delete();
+
+        event(new PaymentMethodDeleted($paymentMethod));
     }
 }

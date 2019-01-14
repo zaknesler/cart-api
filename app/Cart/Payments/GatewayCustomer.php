@@ -14,7 +14,7 @@ interface GatewayCustomer
      * @param  int  $amount
      * @return self
      */
-    public function charge(PaymentMethod $paymentMethod, $amount);
+    public function charge(PaymentMethod $paymentMethod, int $amount);
 
     /**
      * Create and attach a card to a customer.
@@ -22,7 +22,15 @@ interface GatewayCustomer
      * @param  string  $token
      * @return \App\Models\PaymentMethod
      */
-    public function addCard($token);
+    public function addCard(string $token);
+
+    /**
+     * Remove a card from a customer.
+     *
+     * @param  \App\Models\PaymentMethod  $paymentMethod
+     * @return void
+     */
+    public function removeCard(PaymentMethod $paymentMethod);
 
     /**
      * Retrieve the customer's identifier from the provider.

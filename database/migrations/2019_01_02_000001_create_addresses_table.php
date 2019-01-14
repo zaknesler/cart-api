@@ -25,6 +25,7 @@ class CreateAddressesTable extends Migration
             $table->string('city');
             $table->string('postal_code');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('country_id')->references('id')->on('countries');

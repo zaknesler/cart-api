@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/addresses')->namespace('Addresses')->group(function () {
         Route::get('/', 'AddressController@index');
         Route::post('/', 'AddressController@store');
+        Route::delete('/{address}', 'AddressController@destroy');
 
         Route::get('/{address}/shipping', 'AddressShippingController@index');
     });
@@ -47,5 +48,6 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/payment-methods')->namespace('PaymentMethods')->group(function () {
         Route::get('/', 'PaymentMethodController@index');
         Route::post('/', 'PaymentMethodController@store');
+        Route::delete('/{paymentMethod}', 'PaymentMethodController@destroy');
     });
 });

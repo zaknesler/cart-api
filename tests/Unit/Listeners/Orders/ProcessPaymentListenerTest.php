@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Listeners;
+namespace Tests\Unit\Listeners\Orders;
 
 use Mockery;
 use Tests\TestCase;
@@ -33,9 +33,9 @@ class ProcessPaymentListenerTest extends TestCase
         $customer = Mockery::mock(StripeGatewayCustomer::class);
 
         $gateway->shouldReceive('withUser')
-            ->andReturn($gateway)
-            ->shouldReceive('getCustomer')
-            ->andReturn($customer);
+                ->andReturn($gateway)
+                ->shouldReceive('getCustomer')
+                ->andReturn($customer);
 
         $customer->shouldReceive('charge')
             ->with(

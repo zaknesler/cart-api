@@ -27,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Orders\Payments\MarkOrderProcessing',
         ],
 
+        'App\Events\PaymentMethods\PaymentMethodDeleted' => [
+            'App\Listeners\PaymentMethods\RemovePaymentMethodFromProvider',
+        ],
+
         'Illuminate\Auth\Events\Registered' => [
             'Illuminate\Auth\Listeners\SendEmailVerificationNotification',
         ],
