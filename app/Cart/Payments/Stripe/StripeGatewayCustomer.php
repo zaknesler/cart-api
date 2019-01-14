@@ -9,6 +9,7 @@ use App\Cart\Payments\PaymentGateway;
 use App\Cart\Payments\GatewayCustomer;
 use Stripe\Customer as StripeCustomer;
 use App\Exceptions\Payments\PaymentFailedException;
+use App\Exceptions\PaymentMethods\PaymentMethodRemovalFailedException;
 
 class StripeGatewayCustomer implements GatewayCustomer
 {
@@ -91,11 +92,15 @@ class StripeGatewayCustomer implements GatewayCustomer
     public function removeCard(PaymentMethod $paymentMethod)
     {
         try {
-            $this->customer->sources
-                ->retrieve($paymentMethod->provider_id)
-                ->delete();
+            $card = $this->customer->sources
+                        ->retrieve($paymentMethod->provider_id)
+                        ->delete();
+
+            if (! $card->deleted) {
+                throw new Exception;
+            }
         } catch (Exception $e) {
-            // Throw new card deletion exception
+            throw new PaymentMethodRemovalFailedException;
         }
     }
 

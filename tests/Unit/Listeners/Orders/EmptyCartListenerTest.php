@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Listeners;
+namespace Tests\Unit\Listeners\Orders;
 
 use App\Cart\Cart;
 use Tests\TestCase;

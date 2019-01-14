@@ -4,6 +4,7 @@ namespace App\Listeners\PaymentMethods;
 
 use App\Cart\Payments\PaymentGateway;
 use App\Events\PaymentMethods\PaymentMethodDeleted;
+use App\Exceptions\PaymentMethods\PaymentMethodRemovalFailedException;
 
 class RemovePaymentMethodFromProvider
 {
@@ -33,9 +34,13 @@ class RemovePaymentMethodFromProvider
      */
     public function handle(PaymentMethodDeleted $event)
     {
-        $this->paymentGateway
-            ->withUser($event->paymentMethod->user)
-            ->getCustomer()
-            ->removeCard($event->paymentMethod);
+        try {
+            $this->paymentGateway
+                ->withUser($event->paymentMethod->user)
+                ->getCustomer()
+                ->removeCard($event->paymentMethod);
+        } catch (PaymentMethodRemovalFailedException $e) {
+            //
+        }
     }
 }

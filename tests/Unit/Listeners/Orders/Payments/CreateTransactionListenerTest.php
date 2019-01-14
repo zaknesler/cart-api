@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Listeners;
+namespace Tests\Unit\Listeners\Orders\Payments;
 
 use Tests\TestCase;
 use App\Models\Order;

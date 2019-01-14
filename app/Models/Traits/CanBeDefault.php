@@ -12,10 +12,18 @@ trait CanBeDefault
     protected static function bootCanBeDefault()
     {
         static::creating(function ($model) {
+            if (! $model->default) {
+                return;
+            }
+
             $model->revokeDefaultFromOthers();
         });
 
         static::deleted(function ($model) {
+            if (! $model->default) {
+                return;
+            }
+
             $model->update(['default' => false]);
 
             $model->markMostRecentModelAsDefault();
@@ -29,10 +37,6 @@ trait CanBeDefault
      */
     private function revokeDefaultFromOthers()
     {
-        if (! $this->default) {
-            return;
-        }
-
         $this->newQuery()
             ->where('user_id', $this->user->id)
             ->update(['default' => false]);

@@ -34,10 +34,10 @@ class PaymentMethodDestroyTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_soft_delete_a_payment_method_if_they_have_other_payment_methods_available()
+    function a_user_can_soft_delete_a_payment_method()
     {
         $user = factory(User::class)->create();
-        factory(PaymentMethod::class, 2)->create(['user_id' => 1]);
+        factory(PaymentMethod::class)->create(['user_id' => 1]);
 
         $response = $this->jsonAs($user, 'DELETE', '/api/payment-methods/1');
 
@@ -76,7 +76,10 @@ class PaymentMethodDestroyTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group hits-stripe
+     */
     function payment_method_deleted_event_is_fired_upon_deletion_of_payment_method()
     {
         Event::fake();
