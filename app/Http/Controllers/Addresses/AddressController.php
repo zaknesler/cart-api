@@ -43,12 +43,17 @@ class AddressController extends Controller
      * Remove a specified address.
      *
      * @param  \App\Models\Address  $address
-     * @return void
+     * @return \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function destroy(Address $address)
+    public function destroy(Address $address, Request $request)
     {
         $this->authorize('delete', $address);
 
         $address->delete();
+
+        return AddressResource::collection(
+            $request->user()->addresses()->with(['country', 'countryDivision'])->get()
+        );
     }
 }
