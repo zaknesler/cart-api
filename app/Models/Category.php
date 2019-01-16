@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\CategoryProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -56,6 +57,7 @@ class Category extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)->using(CategoryProduct::class);
+        return $this->belongsToMany(Product::class)
+                    ->using(CategoryProduct::class);
     }
 }

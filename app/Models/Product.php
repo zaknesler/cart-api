@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasPrices;
 use App\Models\Traits\HasFilters;
+use App\Models\Pivots\CategoryProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -62,7 +63,8 @@ class Product extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class)->using(CategoryProduct::class);
+        return $this->belongsToMany(Category::class)
+                    ->using(CategoryProduct::class);
     }
 
     /**
@@ -72,6 +74,7 @@ class Product extends Model
      */
     public function variations()
     {
-        return $this->hasMany(ProductVariation::class)->orderBy('order', 'asc');
+        return $this->hasMany(ProductVariation::class)
+                    ->orderBy('order', 'asc');
     }
 }
