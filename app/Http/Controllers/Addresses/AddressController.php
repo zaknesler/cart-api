@@ -33,9 +33,10 @@ class AddressController extends Controller
     {
         $address = $request->user()
             ->addresses()
-            ->create($request->validated());
+            ->create($request->validated())
+            ->load(['country', 'countryDivision']);
 
-        return new AddressResource($address->load('countryDivision'));
+        return new AddressResource($address);
     }
 
     /**
