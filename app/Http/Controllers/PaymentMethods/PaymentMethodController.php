@@ -70,5 +70,9 @@ class PaymentMethodController extends Controller
         $paymentMethod->delete();
 
         event(new PaymentMethodDeleted($paymentMethod));
+
+        return PaymentMethodResource::collection(
+            $request->user()->paymentMethods
+        );
     }
 }

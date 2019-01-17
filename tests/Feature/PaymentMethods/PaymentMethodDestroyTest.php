@@ -76,4 +76,27 @@ class PaymentMethodDestroyTest extends TestCase
             return $event->paymentMethod->id === 1;
         });
     }
+
+    /** @test */
+    function if_a_payment_method_is_set_as_default_the_most_recent_payment_method_is_set_as_the_new_default()
+    {
+        Event::fake(PaymentMethodDeleted::class);
+
+        $user = factory(User::class)->create();
+
+        $paymentMethodA = factory(PaymentMethod::class)->create(['user_id' => 1, 'default' => true]);
+        $paymentMethodB = factory(PaymentMethod::class)->create(['user_id' => 1, 'default' => false]);
+
+        $response = $this->jsonAs($user, 'DELETE', "/api/payment-methods/1");
+
+        $this->assertDatabaseHas('payment_methods', [
+            'id' => $paymentMethodA->id,
+            'default' => false,
+        ]);
+
+        $this->assertDatabaseHas('payment_methods', [
+            'id' => $paymentMethodB->id,
+            'default' => true,
+        ]);
+    }
 }
