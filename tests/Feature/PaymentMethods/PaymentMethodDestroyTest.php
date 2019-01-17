@@ -36,6 +36,8 @@ class PaymentMethodDestroyTest extends TestCase
     /** @test */
     function a_user_can_soft_delete_a_payment_method()
     {
+        Event::fake(PaymentMethodDeleted::class);
+
         $user = factory(User::class)->create();
         factory(PaymentMethod::class)->create(['user_id' => 1]);
 
@@ -47,48 +49,26 @@ class PaymentMethodDestroyTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * @group hits-stripe
-     */
-    function if_a_payment_method_is_set_as_default_the_most_recent_payment_method_is_set_as_the_new_default()
+    /** @test */
+    function deleting_a_payment_method_returns_a_list_of_the_remaining_payment_methods()
     {
+        Event::fake(PaymentMethodDeleted::class);
+
         $user = factory(User::class)->create();
+        factory(PaymentMethod::class, 5)->create(['user_id' => 1]);
 
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
+        $response = $this->jsonAs($user, 'DELETE', '/api/payment-methods/1');
 
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
-
-        $response = $this->jsonAs($user, 'DELETE', "/api/payment-methods/1");
-
-        $this->assertDatabaseHas('payment_methods', [
-            'id' => 1,
-            'default' => false,
-        ]);
-
-        $this->assertDatabaseHas('payment_methods', [
-            'id' => 2,
-            'default' => true,
-        ]);
+        $response->assertJsonCount(4, 'data');
     }
 
-    /**
-     * @test
-     * @group hits-stripe
-     */
+    /** @test */
     function payment_method_deleted_event_is_fired_upon_deletion_of_payment_method()
     {
-        Event::fake();
+        Event::fake(PaymentMethodDeleted::class);
 
         $user = factory(User::class)->create();
-
-        $this->jsonAs($user, 'POST', '/api/payment-methods', [
-            'token' => 'tok_visa',
-        ]);
+        factory(PaymentMethod::class)->create(['user_id' => 1]);
 
         $response = $this->jsonAs($user, 'DELETE', "/api/payment-methods/1");
 
