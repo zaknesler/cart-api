@@ -48,6 +48,19 @@ class AddressDestroyTest extends TestCase
     }
 
     /** @test */
+    function deleting_an_address_returns_a_list_of_the_remaining_addresses()
+    {
+        $user = factory(User::class)->create();
+        $address = factory(Address::class, 5)->create([
+            'user_id' => 1,
+        ]);
+
+        $response = $this->jsonAs($user, 'DELETE', '/api/addresses/1');
+
+        $response->assertJsonCount(4, 'data');
+    }
+
+    /** @test */
     function if_an_address_is_set_as_default_the_the_most_recent_address_is_set_as_the_new_default()
     {
         $user = factory(User::class)->create();
