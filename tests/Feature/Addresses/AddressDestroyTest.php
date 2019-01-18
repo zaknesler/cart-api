@@ -13,7 +13,7 @@ class AddressDestroyTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function must_be_authenticated_to_delete_addresses()
+    function must_be_authenticated_to_delete_an_addresses()
     {
         $response = $this->json('DELETE', '/api/addresses/1');
 
