@@ -101,7 +101,7 @@ class StripeGatewayCustomer implements GatewayCustomer
      *
      * @return string
      */
-    public function id()
+    public function getIdentifier()
     {
         return $this->customer->id;
     }

@@ -37,5 +37,5 @@ interface GatewayCustomer
      *
      * @return string
      */
-    public function id();
+    public function getIdentifier();
 }

@@ -45,7 +45,7 @@ class StripePaymentGateway implements PaymentGateway
         );
 
         $this->user->update([
-            'gateway_customer_id' => $customer->id(),
+            'gateway_customer_id' => $customer->getIdentifier(),
         ]);
 
         return $customer;
