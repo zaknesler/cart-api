@@ -37,3 +37,15 @@ Use the phpunit binary to run the tests
 ```bash
 ./vendor/bin/phpunit
 ```
+
+By default, the tests that hit the Stripe API are excluded, to incldue these tests when running the entire test suite, use the following command:
+
+```bash
+./vendor/bin/phpunit --exclude-group none
+```
+
+To run just the test that hit the Stripe API:
+
+```bash
+./vendor/bin/phpunit --group hits-stripe
+```
