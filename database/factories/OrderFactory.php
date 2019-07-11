@@ -7,6 +7,7 @@ use App\Models\PaymentMethod;
 use Faker\Generator as Faker;
 use App\Models\ShippingMethod;
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Order::class, function (Faker $faker) {
     $user = factory(User::class)->create();
 

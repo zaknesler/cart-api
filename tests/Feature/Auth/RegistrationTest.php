@@ -58,12 +58,24 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    function user_registration_requires_a_password_at_least_eight_characters_long()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->json('POST', '/api/auth/register', [
+            'password' => 'short',
+        ]);
+
+        $response->assertJsonValidationErrors(['password']);
+    }
+
+    /** @test */
     function a_user_can_be_registered()
     {
         $this->json('POST', '/api/auth/register', [
             'name' => 'Zak Nesler',
             'email' => 'zak@example.com',
-            'password' => 'secret',
+            'password' => 'password',
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -78,7 +90,7 @@ class RegistrationTest extends TestCase
         $response = $this->json('POST', '/api/auth/register', [
             'name' => 'Zak Nesler',
             'email' => 'zak@example.com',
-            'password' => 'secret',
+            'password' => 'password',
         ]);
 
         $response->assertJsonFragment([

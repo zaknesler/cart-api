@@ -14,12 +14,12 @@ class CreateProductVariationsTable extends Migration
     public function up()
     {
         Schema::create('product_variations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('product_id')->unsigned()->index();
-            $table->integer('product_variation_type_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('product_id')->unsigned()->index();
+            $table->bigInteger('product_variation_type_id')->unsigned()->index();
             $table->string('name');
             $table->string('order')->nullable();
-            $table->integer('price')->nullable();
+            $table->bigInteger('price')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products');

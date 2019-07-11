@@ -14,9 +14,9 @@ class CreateUserCartTable extends Migration
     public function up()
     {
         Schema::create('user_cart', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('product_variation_id')->unsigned()->index();
-            $table->integer('quantity')->unsigned()->default(1);
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('product_variation_id')->unsigned()->index();
+            $table->bigInteger('quantity')->unsigned()->default(1);
 
             $table->timestamps();
 

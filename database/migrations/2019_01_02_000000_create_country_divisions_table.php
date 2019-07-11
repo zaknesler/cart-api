@@ -14,8 +14,8 @@ class CreateCountryDivisionsTable extends Migration
     public function up()
     {
         Schema::create('country_divisions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('country_id')->unsigned()->integer();
+            $table->bigIncrements('id');
+            $table->bigInteger('country_id')->unsigned()->bigInteger();
             $table->string('name');
             $table->string('code', 2);
 

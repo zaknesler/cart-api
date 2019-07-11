@@ -6,6 +6,7 @@ use App\Models\Country;
 use Faker\Generator as Faker;
 use App\Models\CountryDivision;
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Address::class, function (Faker $faker) {
     $country = factory(Country::class)->create();
 

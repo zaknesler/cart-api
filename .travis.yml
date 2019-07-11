@@ -30,6 +30,7 @@ install:
 
 script:
   - phpunit
+  - phpunit --group=hits-stripe
 
 notifications:
   email: false

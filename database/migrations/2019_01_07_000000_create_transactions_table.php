@@ -14,9 +14,9 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('order_id')->unsigned()->integer();
-            $table->integer('total');
+            $table->bigIncrements('id');
+            $table->bigInteger('order_id')->unsigned()->bigInteger();
+            $table->bigInteger('total');
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders');

@@ -10,16 +10,6 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     /**
-     * Setup the test environment.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    /**
      * Call the given URI as a JWT-authenticated user.
      *
      * @param  \Tymon\JWTAuth\Contracts\JWTSubject  $user
