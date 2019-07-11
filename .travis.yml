@@ -23,7 +23,7 @@ before_install:
 install:
   - cp .env.travis .env
   - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - composer install --prefer-source --no-interaction
   - php artisan key:generate --force
   - php artisan jwt:secret --force
   - php artisan migrate --seed --force
