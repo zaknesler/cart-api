@@ -31,8 +31,8 @@ class DummyDataSeeder extends Seeder
     {
         $user = User::create([
             'name' => 'Zak Nesler',
-            'email' => 'zaknesler@gmail.com',
-            'password' => 'secret',
+            'email' => 'zak@example.com',
+            'password' => 'password',
         ]);
 
         $user->addresses()->create([
