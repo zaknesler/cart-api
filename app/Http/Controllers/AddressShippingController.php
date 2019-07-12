@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Addresses;
+namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;

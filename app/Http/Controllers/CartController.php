@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cart;
+namespace App\Http\Controllers;
 
 use App\Cart\Cart;
 use Illuminate\Http\Request;
